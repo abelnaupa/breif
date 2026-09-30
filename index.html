@@ -793,6 +793,9 @@ Responde SOLO con un objeto JSON válido (sin markdown) con esta forma exacta:
   if (data.result) {
     console.log("Brief generado de forma segura:", data.result);
     // Mostrar resultado en pantalla...
+      document.getElementById('briefOutputContent').innerHTML = data.result.replace(/\n/g, '<br>');
+document.getElementById('previewSection').classList.remove('hidden');
+document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
   } else {
     alert("Error: " + data.error);
   }
