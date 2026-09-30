@@ -772,6 +772,31 @@ Responde SOLO con un objeto JSON válido (sin markdown) con esta forma exacta:
             document.querySelectorAll('#faqAccordion button svg').forEach(i => i.style.transform = 'rotate(0deg)');
             if (isHidden) { content.classList.remove('hidden'); if (icon) icon.style.transform = 'rotate(180deg)'; }
         }
+        async function generateBriefWithVercel() {
+  const brandUrl = document.getElementById('brandUrl').value;
+  const noLanding = document.getElementById('noLandingCheckbox').checked;
+
+  const response = await fetch('/api/generate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      brandUrl: brandUrl,
+      stage: selectedStage, // 'TOFU - Atracción', etc.
+      noLanding: noLanding
+    })
+  });
+
+  const data = await response.json();
+  
+  if (data.result) {
+    console.log("Brief generado de forma segura:", data.result);
+    // Mostrar resultado en pantalla...
+  } else {
+    alert("Error: " + data.error);
+  }
+}
     </script>
 </body>
 </html>
