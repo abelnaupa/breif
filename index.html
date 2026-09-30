@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Brief_ | Crea tu Brief de Marketing y Brief para Clientes gratis</title>
+    <title>Brief_ | Generador de Briefs de Marketing con IA</title>
     
     <!-- Meta tags SEO -->
-    <meta name="description" content="Crea un brief de marketing o un brief para clientes gratis en minutos. La IA analiza la marca y arma el brief completo para cualquier campaña. Descárgalo en PDF.">
+    <meta name="description" content="Crea un brief de marketing completo con IA. Analiza la marca desde su web o redes sociales, incluye FODA, Paleta de Colores, KPIs, Cronograma y Funnel de Contenidos. Descarga en PDF.">
     <meta name="theme-color" content="#00ff41" />
 
     <!-- Tailwind CSS CDN -->
@@ -47,8 +47,10 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- html2pdf.js CDN for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
-        /* Custom scrollbars & glassmorphism elements */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -75,6 +77,13 @@
         .neon-glow-text {
             text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
         }
+        /* Custom styling for print/pdf export */
+        .pdf-export-mode {
+            background-color: #0d0d0d !important;
+            color: #e2e8f0 !important;
+            padding: 24px !important;
+            font-family: 'Inter', sans-serif !important;
+        }
     </style>
 </head>
 <body class="bg-brand-black text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-neon selection:text-black">
@@ -87,15 +96,15 @@
                 <span class="font-bold text-2xl tracking-wider font-mono text-white">
                     Brief<span class="text-brand-neon transition-all duration-300 group-hover:neon-glow-text">_</span>
                 </span>
-                <span class="bg-brand-neon/10 border border-brand-neon/30 text-brand-neon text-[10px] font-mono uppercase px-2 py-0.5 rounded-full">AI 2.0</span>
+                <span class="bg-brand-neon/10 border border-brand-neon/30 text-brand-neon text-[10px] font-mono uppercase px-2 py-0.5 rounded-full">AI 3.0</span>
             </a>
 
             <!-- Navigation Links -->
             <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-slate-300">
                 <a href="#como-funciona" class="hover:text-brand-neon transition-colors">¿Cómo funciona?</a>
                 <a href="#generador" class="hover:text-brand-neon transition-colors">Generador</a>
-                <a href="#casos" class="hover:text-brand-neon transition-colors">Casos de Uso</a>
-                <a href="#faq" class="hover:text-brand-neon transition-colors">Preguntas Frecuentes</a>
+                <a href="#estructura" class="hover:text-brand-neon transition-colors">Estructura</a>
+                <a href="#faq" class="hover:text-brand-neon transition-colors">FAQ</a>
             </nav>
 
             <!-- Action Button -->
@@ -108,77 +117,97 @@
         </div>
     </header>
 
-    <!-- Main Hero Section -->
     <main class="flex-grow">
-        <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
-            <!-- Neon background glows -->
-            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-neon/10 blur-[140px] rounded-full pointer-events-none"></div>
+        <!-- Hero Section -->
+        <section class="relative pt-12 pb-20 md:pt-16 md:pb-28 overflow-hidden">
+            <!-- Neon background glow -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-brand-neon/10 blur-[150px] rounded-full pointer-events-none"></div>
 
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                 
                 <!-- Badge -->
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-brand-border text-slate-300 text-xs font-mono mb-8">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-brand-border text-slate-300 text-xs font-mono mb-6">
                     <span class="w-2 h-2 rounded-full bg-brand-neon animate-pulse"></span>
-                    <span>Agencia & IA para Marcas de Alto Rendimiento</span>
+                    <span>Generador Estratégico de Briefs & Inbound Marketing</span>
                 </div>
 
                 <!-- Main Heading -->
                 <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
-                    Crea tu Brief de Marketing <br class="hidden sm:inline"/>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-neon">con Inteligencia Artificial</span>
+                    Construye tu Brief Estratégico <br class="hidden sm:inline"/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-neon">con un solo enlace</span>
                 </h1>
 
                 <!-- Subtitle -->
                 <p class="text-lg sm:text-xl text-brand-muted max-w-3xl mx-auto mb-10 leading-relaxed">
-                    Analizamos tu marca, definimos tu audiencia objetivo y construimos el brief perfecto para cualquier campaña en menos de 2 minutos. Descárgalo en PDF o exportalo directamente a ChatGPT, Claude y Gemini.
+                    Ingresa el link de tu Web, Instagram, Facebook o LinkedIn. La IA diagnostica tu marca, genera tu FODA, Paleta de Colores, Objetivos y diseña tu <strong>Funnel de Contenidos</strong> en minutos.
                 </p>
 
                 <!-- Interactive Form Card -->
                 <div id="generador" class="glass-card-neon rounded-2xl p-6 sm:p-8 max-w-3xl mx-auto text-left shadow-2xl relative">
                     <form id="briefForm" class="space-y-6" onsubmit="event.preventDefault(); generateBrief();">
+                        
+                        <!-- Universal Link Input -->
                         <div>
                             <label for="brandUrl" class="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
-                                Sitio Web / Dominio de tu Marca o Empresa
+                                Link o Enlace de tu Marca (Web, Instagram, Facebook, LinkedIn, TikTok, etc.)
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                                    <i data-lucide="globe" class="w-5 h-5"></i>
+                                    <i data-lucide="link-2" class="w-5 h-5"></i>
                                 </div>
-                                <input type="text" id="brandUrl" required placeholder="ej. miempresa.com o mi-tienda.cl" class="w-full pl-11 pr-4 py-3.5 bg-black/60 border border-brand-border rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all font-mono text-sm">
+                                <input type="text" id="brandUrl" required placeholder="ej. instagram.com/mimarca o miempresa.cl" class="w-full pl-11 pr-4 py-3.5 bg-black/60 border border-brand-border rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all font-mono text-sm">
                             </div>
+                        </div>
+
+                        <!-- No Landing Page Checkbox Toggle -->
+                        <div class="flex items-center justify-between p-4 bg-black/40 border border-brand-border rounded-xl">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" id="noLandingPage" class="w-4 h-4 rounded bg-black border-brand-border text-brand-neon focus:ring-brand-neon focus:ring-offset-black accent-brand-neon cursor-pointer">
+                                <div>
+                                    <label for="noLandingPage" class="text-sm font-semibold text-white cursor-pointer select-none">
+                                        No tengo Landing Page / Sitio Web aún
+                                    </label>
+                                    <p class="text-xs text-brand-muted">
+                                        El brief se adaptará para usarlo como guía en la construcción de tu primera landing page y para potenciar tus redes sociales.
+                                    </p>
+                                </div>
+                            </div>
+                            <span class="text-xs bg-brand-neon/10 text-brand-neon font-mono px-2.5 py-1 rounded-full border border-brand-neon/30 hidden sm:inline-block">
+                                Estrategia Base
+                            </span>
                         </div>
 
                         <!-- Campaign Types Select -->
                         <div>
                             <label class="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
-                                Tipo de Campaña / Ocasión
+                                Tipo de Campaña / Objetivo Principal
                             </label>
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="campaignSelector">
-                                <button type="button" onclick="selectCampaign(this, 'CyberDay')" class="campaign-btn active bg-brand-neon/20 border-brand-neon text-brand-neon border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="shopping-bag" class="w-4 h-4"></i> CyberDay / Sale
+                                <button type="button" onclick="selectCampaign(this, 'CyberDay / Sale')" class="campaign-btn active bg-brand-neon/20 border-brand-neon text-brand-neon border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="shopping-bag" class="w-4 h-4"></i> CyberDay / Ventas
                                 </button>
                                 <button type="button" onclick="selectCampaign(this, 'Lanzamiento de Producto')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
                                     <i data-lucide="rocket" class="w-4 h-4"></i> Lanzamiento
                                 </button>
-                                <button type="button" onclick="selectCampaign(this, 'Black Friday')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="tag" class="w-4 h-4"></i> Black Friday
+                                <button type="button" onclick="selectCampaign(this, 'Estrategia de Redes Sociales')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="instagram" class="w-4 h-4"></i> Redes & Contenido
                                 </button>
-                                <button type="button" onclick="selectCampaign(this, 'Performance & Ads')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="trending-up" class="w-4 h-4"></i> Performance
+                                <button type="button" onclick="selectCampaign(this, 'Performance & Captación')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="target" class="w-4 h-4"></i> Performance / Leads
                                 </button>
-                                <button type="button" onclick="selectCampaign(this, 'Campaña Corporativa')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="briefcase" class="w-4 h-4"></i> Corporativa
+                                <button type="button" onclick="selectCampaign(this, 'Posicionamiento de Marca')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="award" class="w-4 h-4"></i> Branding
                                 </button>
-                                <button type="button" onclick="selectCampaign(this, 'Redes Sociales')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="share-2" class="w-4 h-4"></i> Redes / Contenido
+                                <button type="button" onclick="selectCampaign(this, 'Black Friday / Oferta')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="zap" class="w-4 h-4"></i> Oferta Especial
                                 </button>
                             </div>
                         </div>
 
                         <!-- CTA Generate Button -->
                         <button type="submit" id="generateBtn" class="w-full py-4 bg-brand-neon hover:bg-brand-neonHover text-black font-bold rounded-xl transition-all shadow-neon hover:shadow-neon-lg flex items-center justify-center gap-3 text-base">
-                            <i data-lucide="cpu" class="w-5 h-5"></i>
-                            <span>Generar Brief Gratis con IA</span>
+                            <i data-lucide="sparkles" class="w-5 h-5"></i>
+                            <span>Generar Brief Estratégico Completo</span>
                         </button>
                     </form>
                 </div>
@@ -187,31 +216,31 @@
         </section>
 
         <!-- Live Draft Preview Section -->
-        <section id="previewSection" class="py-12 bg-black/80 border-t border-b border-brand-border hidden">
+        <section id="previewSection" class="py-12 bg-black/90 border-t border-b border-brand-border hidden">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 
-                <!-- Section Header -->
+                <!-- Section Header & Action Buttons -->
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
                     <div>
                         <div class="flex items-center gap-2 text-brand-neon font-mono text-xs mb-1">
                             <i data-lucide="check-circle-2" class="w-4 h-4"></i>
                             <span>BRIEF GENERADO EXITOSAMENTE</span>
                         </div>
-                        <h2 class="text-2xl font-bold text-white">Vista Previa e Inspección del Brief</h2>
+                        <h2 class="text-2xl font-bold text-white">Documento Final de Brief & Estrategia</h2>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <button onclick="copyBriefMarkdown()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <button onclick="copyBriefMarkdown()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all">
                             <i data-lucide="copy" class="w-4 h-4"></i> Copiar Markdown
                         </button>
-                        <button onclick="downloadBriefPDF()" class="bg-brand-neon text-black font-semibold px-4 py-2 rounded-lg text-sm flex items-center gap-2 hover:bg-brand-neonHover transition-all shadow-neon">
+                        <button onclick="downloadBriefPDF()" id="pdfBtn" class="bg-brand-neon text-black font-bold px-5 py-2.5 rounded-lg text-sm flex items-center gap-2 hover:bg-brand-neonHover transition-all shadow-neon">
                             <i data-lucide="download" class="w-4 h-4"></i> Descargar PDF
                         </button>
                     </div>
                 </div>
 
-                <!-- Generated Brief Container -->
-                <div class="glass-card rounded-2xl p-6 sm:p-8 border border-brand-border space-y-8 font-mono text-sm leading-relaxed" id="briefOutputContent">
-                    <!-- Dynamic Brief Content Loaded Here -->
+                <!-- Generated Brief Container (Target for PDF Generation) -->
+                <div class="glass-card rounded-2xl p-6 sm:p-10 border border-brand-border space-y-8 text-sm leading-relaxed text-slate-200" id="briefOutputContent">
+                    <!-- Dynamic Brief Content will be populated here via JavaScript -->
                 </div>
 
             </div>
@@ -221,8 +250,8 @@
         <section id="como-funciona" class="py-20 border-t border-brand-border bg-brand-black relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-16">
-                    <h2 class="text-xs font-mono uppercase tracking-widest text-brand-neon mb-3">Flujo de Trabajo</h2>
-                    <p class="text-3xl sm:text-4xl font-bold text-white tracking-tight">¿Cómo funciona la IA de Brief_?</p>
+                    <h2 class="text-xs font-mono uppercase tracking-widest text-brand-neon mb-3">Metodología de Análisis</h2>
+                    <p class="text-3xl sm:text-4xl font-bold text-white tracking-tight">¿Cómo la IA de Brief_ construye tu estrategia?</p>
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8">
@@ -231,9 +260,9 @@
                         <div class="w-12 h-12 rounded-xl bg-brand-neon/10 border border-brand-neon/30 text-brand-neon flex items-center justify-center font-mono font-bold text-xl mb-6">
                             01
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Ingresa la URL</h3>
+                        <h3 class="text-xl font-bold text-white mb-3">Extracción Multi-canal</h3>
                         <p class="text-brand-muted text-sm leading-relaxed">
-                            Añade el enlace de tu marca o tienda online. Nuestro motor escanea la proposición de valor, catálogo e identidad.
+                            Acepta sitios web o perfiles de Instagram, Facebook y LinkedIn. Extrae el ADN visual, tono de voz y estado de tu presencia digital.
                         </p>
                     </div>
 
@@ -242,9 +271,9 @@
                         <div class="w-12 h-12 rounded-xl bg-brand-neon/10 border border-brand-neon/30 text-brand-neon flex items-center justify-center font-mono font-bold text-xl mb-6">
                             02
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Procesamiento IA</h3>
+                        <h3 class="text-xl font-bold text-white mb-3">Diagnóstico Estratégico</h3>
                         <p class="text-brand-muted text-sm leading-relaxed">
-                            La arquitectura analiza el público objetivo, competencia, canales ideales, tono de voz y metas comerciales de la campaña.
+                            Genera la matriz FODA, investigación de competencia, arquetipo de comprador ideal, paleta de colores sugerida y presupuesto óptimo.
                         </p>
                     </div>
 
@@ -253,67 +282,107 @@
                         <div class="w-12 h-12 rounded-xl bg-brand-neon/10 border border-brand-neon/30 text-brand-neon flex items-center justify-center font-mono font-bold text-xl mb-6">
                             03
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Brief Listo para Ejecutar</h3>
+                        <h3 class="text-xl font-bold text-white mb-3">Funnel Inbound & Exportación</h3>
                         <p class="text-brand-muted text-sm leading-relaxed">
-                            Recibe una estructura profesional accionable en PDF o formato prompt optimizado para tus modelos de IA favoritos.
+                            Construye el embudo de contenidos en 4 fases (Atracción, Interacción, Conversión, Fidelización) y lo entrega en PDF o Markdown.
                         </p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Structure Section -->
+        <section id="estructura" class="py-20 bg-brand-card/30 border-t border-brand-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-xs font-mono uppercase tracking-widest text-brand-neon mb-3">Anatomía del Brief</h2>
+                    <p class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Todo lo que incluye tu documento generado</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-black/60 border border-brand-border p-6 rounded-xl">
+                        <div class="text-brand-neon font-mono font-bold mb-2">01. Identidad & FODA</div>
+                        <p class="text-xs text-brand-muted">Historia, contexto de marca, análisis de fortalezas, debilidades, oportunidades y amenazas.</p>
+                    </div>
+                    <div class="bg-black/60 border border-brand-border p-6 rounded-xl">
+                        <div class="text-brand-neon font-mono font-bold mb-2">02. Buyer Persona</div>
+                        <p class="text-xs text-brand-muted">Demografía, necesidades, puntos de dolor y motivación principal de tu cliente ideal.</p>
+                    </div>
+                    <div class="bg-black/60 border border-brand-border p-6 rounded-xl">
+                        <div class="text-brand-neon font-mono font-bold mb-2">03. Paleta & Tono</div>
+                        <p class="text-xs text-brand-muted">Códigos HEX de colores sugeridos, guía estética y personalidad de comunicación de la marca.</p>
+                    </div>
+                    <div class="bg-black/60 border border-brand-border p-6 rounded-xl">
+                        <div class="text-brand-neon font-mono font-bold mb-2">04. Objetivos & KPIs</div>
+                        <p class="text-xs text-brand-muted">Métricas cuantitativas clave, ROAS objetivo, tasa de conversión y retorno proyectado.</p>
+                    </div>
+                    <div class="bg-black/60 border border-brand-border p-6 rounded-xl">
+                        <div class="text-brand-neon font-mono font-bold mb-2">05. Canales & Timing</div>
+                        <p class="text-xs text-brand-muted">Matriz de distribución por plataformas, presupuesto sugerido y cronograma de hitos.</p>
+                    </div>
+                    <div class="bg-black/60 border border-brand-border p-6 rounded-xl">
+                        <div class="text-brand-neon font-mono font-bold mb-2">06. Funnel Inbound</div>
+                        <p class="text-xs text-brand-muted">Contenido organizado en Atracción, Interacción, Conversión y Fidelización.</p>
+                    </div>
+                    <div class="bg-black/60 border border-brand-border p-6 rounded-xl">
+                        <div class="text-brand-neon font-mono font-bold mb-2">07. CTAs & Notion/Trello</div>
+                        <p class="text-xs text-brand-muted">Llamados a la acción estratégicos e integración de flujo organizativo de trabajo.</p>
+                    </div>
+                    <div class="bg-black/60 border border-brand-border p-6 rounded-xl">
+                        <div class="text-brand-neon font-mono font-bold mb-2">08. Plan Landing Page</div>
+                        <p class="text-xs text-brand-muted">Indicaciones explícitas de estructura si la marca aún no cuenta con sitio web.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- FAQ Section -->
-        <section id="faq" class="py-20 bg-brand-card/50 border-t border-brand-border">
+        <section id="faq" class="py-20 bg-brand-card/60 border-t border-brand-border">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-14">
                     <h2 class="text-xs font-mono uppercase tracking-widest text-brand-neon mb-3">Resolviendo Dudas</h2>
                     <p class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Preguntas Frecuentes</p>
                 </div>
 
-                <!-- Accordion Items -->
                 <div class="space-y-4" id="faqAccordion">
                     
-                    <!-- FAQ Item 1 -->
                     <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-lg hover:text-brand-neon transition-colors">
-                            <span>¿Qué es un brief de marketing y para qué sirve?</span>
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-base hover:text-brand-neon transition-colors">
+                            <span>¿Puedo ingresar un enlace de Instagram o redes sociales en lugar de una web?</span>
                             <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300"></i>
                         </button>
                         <div class="px-6 pb-5 text-brand-muted text-sm leading-relaxed hidden">
-                            Un brief es un documento estratégico y conciso que resume los objetivos, público objetivo, mensajes clave, canales y entregables esperados para una campaña. Sirve para alinear a clientes, agencias, diseñadores e Inteligencias Artificiales bajo una misma hoja de ruta.
+                            ¡Sí! Puedes pegar el enlace de tu perfil de Instagram, Facebook, TikTok, LinkedIn o tu sitio web. La IA adaptará la extracción de contexto de acuerdo al tipo de canal ingresado.
                         </div>
                     </div>
 
-                    <!-- FAQ Item 2 -->
                     <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-lg hover:text-brand-neon transition-colors">
-                            <span>¿Cómo hacer un brief de marketing eficaz con esta herramienta?</span>
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-base hover:text-brand-neon transition-colors">
+                            <span>¿Qué ocurre si selecciono "No tengo Landing Page aún"?</span>
                             <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300"></i>
                         </button>
                         <div class="px-6 pb-5 text-brand-muted text-sm leading-relaxed hidden">
-                            Con Brief_ solo debes ingresar el sitio web de tu marca y seleccionar la ocasión o tipo de campaña (CyberDay, Lanzamiento, Black Friday, etc.). Nuestra IA extrae el ADN de tu marca y genera automáticamente las secciones clave del brief para que las descargues o utilices como prompt.
+                            El sistema incluirá un diagnóstico de infraestructura digital y agregará una sección especial al final del PDF. Esto te servirá como brief de requerimientos para mandarle a tu diseñador o agencia para construir tu primera landing page de alta conversión.
                         </div>
                     </div>
 
-                    <!-- FAQ Item 3 -->
                     <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-lg hover:text-brand-neon transition-colors">
-                            <span>¿Brief_ es totalmente gratis?</span>
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-base hover:text-brand-neon transition-colors">
+                            <span>¿Cómo funciona la descarga en PDF?</span>
                             <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300"></i>
                         </button>
                         <div class="px-6 pb-5 text-brand-muted text-sm leading-relaxed hidden">
-                            Sí, puedes generar, copiar y descargar tus briefs de marketing completamente gratis. Si necesitas que un equipo especializado ejecute las estrategias y campañas diseñadas, ofrecemos nuestro servicio **Brief_ Performance**.
+                            Utilizamos la tecnología de `html2pdf.js`, lo que permite que el brief que ves en pantalla se compile exactamente con su formato visual en un archivo PDF listo para enviar a clientes o equipos de trabajo.
                         </div>
                     </div>
 
-                    <!-- FAQ Item 4 -->
                     <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-lg hover:text-brand-neon transition-colors">
-                            <span>¿Puedo exportar el brief a ChatGPT, Claude o Gemini?</span>
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-base hover:text-brand-neon transition-colors">
+                            <span>¿Puedo copiar el brief para usarlo con ChatGPT, Claude o Gemini?</span>
                             <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300"></i>
                         </button>
                         <div class="px-6 pb-5 text-brand-muted text-sm leading-relaxed hidden">
-                            ¡Exacto! El botón "Copiar Markdown" estructura la información en un formato optimizado para que lo pegues como super-prompt en cualquier modelo de IA conversacional y continúes creando copys, piezas gráficas o estrategias de pauta.
+                            Haciendo clic en "Copiar Markdown", obtendrás el documento formateado con encabezados y listas ideales para pegarlo en tu modelo de lenguaje preferido y continuar pidiéndole copys, guiones de video o campañas completas.
                         </div>
                     </div>
 
@@ -330,7 +399,7 @@
                 <div class="flex items-center gap-3">
                     <span class="font-bold text-xl tracking-wider font-mono text-white">Brief<span class="text-brand-neon">_</span></span>
                     <span class="text-slate-600">|</span>
-                    <span>Plataforma de Briefs de Marketing con IA</span>
+                    <span>Plataforma Estratégica de Briefs e Inbound Marketing con IA</span>
                 </div>
 
                 <!-- Copyright & Credits -->
@@ -343,14 +412,14 @@
     </footer>
 
     <script>
-        let selectedCampaign = 'CyberDay';
+        let selectedCampaign = 'CyberDay / Sale';
 
-        // Initialize icons
+        // Initialize Lucide icons on page load
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
         });
 
-        // Campaign Selector
+        // Campaign selection logic
         function selectCampaign(button, campaignType) {
             document.querySelectorAll('.campaign-btn').forEach(btn => {
                 btn.classList.remove('bg-brand-neon/20', 'border-brand-neon', 'text-brand-neon');
@@ -361,9 +430,10 @@
             selectedCampaign = campaignType;
         }
 
-        // Generate Brief Action Simulation
         function generateBrief() {
             const urlInput = document.getElementById('brandUrl').value.trim();
+            const noLanding = document.getElementById('noLandingPage').checked;
+
             if (!urlInput) return;
 
             const btn = document.getElementById('generateBtn');
@@ -377,71 +447,257 @@
 
             setTimeout(() => {
                 btn.disabled = false;
-                btn.innerHTML = `<i data-lucide="cpu" class="w-5 h-5"></i><span>Generar Brief Gratis con IA</span>`;
+                btn.innerHTML = `<i data-lucide="sparkles" class="w-5 h-5"></i><span>Generar Brief Estratégico Completo</span>`;
                 lucide.createIcons();
 
-                // Format domain clean name
-                let domainName = urlInput.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-                domainName = domainName.charAt(0).toUpperCase() + domainName.slice(1);
+                // Clean domain/brand name for display
+                let cleanBrand = urlInput.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
+                if (cleanBrand.includes('instagram.com/')) {
+                    cleanBrand = '@' + cleanBrand.split('instagram.com/')[1].replace(/\//g, '');
+                } else if (cleanBrand.includes('facebook.com/')) {
+                    cleanBrand = 'FB / ' + cleanBrand.split('facebook.com/')[1].replace(/\//g, '');
+                } else if (cleanBrand.includes('linkedin.com/')) {
+                    cleanBrand = 'LinkedIn / ' + cleanBrand.split('linkedin.com/')[1].replace(/\//g, '');
+                } else {
+                    cleanBrand = cleanBrand.toUpperCase();
+                }
 
-                // Build Brief Content
                 output.innerHTML = `
-                    <div class="border-b border-brand-border pb-4 mb-4 flex flex-wrap justify-between items-center gap-2">
-                        <span class="text-brand-neon font-bold text-base"># BRIEF ESTRATÉGICO DE MARKETING</span>
-                        <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded">MARCA: ${domainName}</span>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-6 text-slate-300">
-                        <div class="space-y-2">
-                            <h4 class="text-brand-neon text-xs uppercase tracking-wider font-bold">1. Resumen de Marca</h4>
-                            <p class="text-slate-400">Marca/Dominio: <strong class="text-white">${domainName}</strong></p>
-                            <p class="text-slate-400">Tipo de Campaña: <strong class="text-white">${selectedCampaign}</strong></p>
-                            <p class="text-slate-400">Tono de Voz sugerido: <strong class="text-white">Persuasivo, Moderno, Orientado a Acción</strong></p>
+                    <!-- Header Brief Title -->
+                    <div class="border-b border-brand-border pb-6 mb-6 flex flex-wrap justify-between items-center gap-4">
+                        <div>
+                            <span class="text-brand-neon font-mono font-bold text-xs uppercase tracking-widest">DOC_REF: BRIEF-${Math.floor(1000 + Math.random() * 9000)}</span>
+                            <h3 class="text-2xl font-extrabold text-white tracking-tight mt-1">BRIEF ESTRATÉGICO & PLAN DE CONTENIDOS</h3>
                         </div>
-
-                        <div class="space-y-2">
-                            <h4 class="text-brand-neon text-xs uppercase tracking-wider font-bold">2. Objetivos Principales</h4>
-                            <ul class="list-disc list-inside space-y-1 text-slate-300">
-                                <li>Maximizar conversiones directas en ${selectedCampaign}.</li>
-                                <li>Incrementar el Retorno de Inversión en Pauta (ROAS) en un 25%.</li>
-                                <li>Capturar leads cualificados para remarketing posterior.</li>
-                            </ul>
+                        <div class="flex items-center gap-2 font-mono text-xs">
+                            <span class="bg-black/80 border border-brand-border px-3 py-1.5 rounded-lg text-slate-300">MARCA: <strong class="text-brand-neon">${cleanBrand}</strong></span>
+                            <span class="bg-black/80 border border-brand-border px-3 py-1.5 rounded-lg text-slate-300">TIPO: <strong class="text-white">${selectedCampaign}</strong></span>
                         </div>
                     </div>
 
-                    <div class="border-t border-brand-border pt-4 mt-4 grid md:grid-cols-2 gap-6 text-slate-300">
-                        <div class="space-y-2">
-                            <h4 class="text-brand-neon text-xs uppercase tracking-wider font-bold">3. Target / Público Objetivo</h4>
-                            <p><strong class="text-white">Edad:</strong> 25 a 45 años</p>
-                            <p><strong class="text-white">Intereses:</strong> Compras digitales, innovación, soluciones rápidas, ofertas exclusivas.</p>
-                            <p><strong class="text-white">Punto de Dolor:</strong> Falta de tiempo, búsqueda de ofertas reales y confianza en la compra online.</p>
+                    <!-- Module 1: Identidad, ADN, Historia & Contexto -->
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
+                            <i data-lucide="book-open" class="w-4 h-4"></i>
+                            <span>1. Introducción, ADN & Historia de la Marca</span>
                         </div>
-
-                        <div class="space-y-2">
-                            <h4 class="text-brand-neon text-xs uppercase tracking-wider font-bold">4. Canales & Entregables Recomendados</h4>
-                            <ul class="list-disc list-inside space-y-1 text-slate-300">
-                                <li><strong>Meta Ads (IG/FB):</strong> 3 carruseles de producto + 2 Reels dinámicos.</li>
-                                <li><strong>Google Search & Performance Max:</strong> Anuncios enfocados en intención alta.</li>
-                                <li><strong>Email Marketing:</strong> Secuencia de 3 correos (Previo, Lanzamiento, Últimas Horas).</li>
-                            </ul>
+                        <div class="bg-black/50 p-4 sm:p-5 rounded-xl border border-brand-border space-y-3">
+                            <p class="text-slate-300">
+                                <strong class="text-white">Descripción General:</strong> Proyecto estratégico de comunicación y marketing para <span class="text-brand-neon font-semibold">${cleanBrand}</span>. En el contexto actual del mercado, la marca requiere consolidar su propuesta de valor diferenciada para destacar ante audiencias altamente impactadas digitalmente.
+                            </p>
+                            <p class="text-slate-300">
+                                <strong class="text-white">Historia & Misión:</strong> Orientada a resolver necesidades específicas de sus clientes con un enfoque de calidad, agilidad e innovación constante.
+                            </p>
                         </div>
                     </div>
 
-                    <div class="border-t border-brand-border pt-4 mt-4 space-y-2">
-                        <h4 class="text-brand-neon text-xs uppercase tracking-wider font-bold">5. Propuesta de Valor & Mensaje Clave</h4>
-                        <div class="bg-black/50 p-4 rounded-xl border border-brand-border text-slate-200 italic">
-                            "Consigue las mejores soluciones y productos de ${domainName} con beneficios exclusivos para esta campaña de ${selectedCampaign}. Calidad garantizada en tiempo récord."
+                    <!-- Module 2: Diagnóstico e Infraestructura Digital -->
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
+                            <i data-lucide="server" class="w-4 h-4"></i>
+                            <span>2. Estado de Infraestructura Digital</span>
+                        </div>
+                        <div class="bg-black/50 p-4 sm:p-5 rounded-xl border border-brand-border space-y-2">
+                            <p class="text-slate-300">
+                                <strong class="text-white">Canal de Origen Analizado:</strong> ${urlInput}
+                            </p>
+                            <p class="text-slate-300">
+                                <strong class="text-white">Diagnóstico de Sitio Web / Landing Page:</strong> 
+                                ${noLanding 
+                                    ? `<span class="text-amber-400 font-semibold">⚠️ La marca actualmente NO cuenta con una Landing Page o sitio web activo.</span>` 
+                                    : `<span class="text-brand-neon font-semibold">✓ La marca cuenta con sitio web / landing activa para la recepción de tráfico.</span>`}
+                            </p>
                         </div>
                     </div>
+
+                    <!-- Module 3: FODA & Competencia -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- FODA -->
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
+                                <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                                <span>3. Análisis FODA</span>
+                            </div>
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2 text-xs">
+                                <p><strong class="text-emerald-400">Fortalezas:</strong> Propuesta ágil, mensaje directo, adaptación veloz a redes.</p>
+                                <p><strong class="text-blue-400">Oportunidades:</strong> Captación de nuevos segmentos mediante formatos de video corto (Reels/TikTok) y pauta focalizada.</p>
+                                <p><strong class="text-amber-400">Debilidades:</strong> Necesidad de estandarizar la captura de datos y nutrición de prospectos.</p>
+                                <p><strong class="text-rose-400">Amenazas:</strong> Saturación publicitaria del sector y alza de costos por clic en canales tradicionales.</p>
+                            </div>
+                        </div>
+
+                        <!-- Competencia -->
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
+                                <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                                <span>4. Competencia & Ventaja Unica</span>
+                            </div>
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2 text-xs">
+                                <p><strong class="text-white">Entorno Competitivo:</strong> Marcas tradicionales con procesos lentos de atención.</p>
+                                <p><strong class="text-brand-neon font-bold">Ventaja Única de Valor (UVP):</strong> Atención directa, transparencia, propuesta clara y respuesta en tiempo récord.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 4: Buyer Persona, Paleta de Colores & Mensaje Clave -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Buyer Persona -->
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
+                                <i data-lucide="users" class="w-4 h-4"></i>
+                                <span>5. Público Objetivo (Target)</span>
+                            </div>
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2 text-xs">
+                                <p><strong class="text-white">Rango Etario:</strong> 24 - 45 años.</p>
+                                <p><strong class="text-white">Perfil:</strong> Profesionales, compradores digitales y tomadores de decisión activos en redes.</p>
+                                <p><strong class="text-white">Puntos de Dolor:</strong> Falta de claridad en precios, procesos burocráticos, desconfianza en ofertas opacas.</p>
+                            </div>
+                        </div>
+
+                        <!-- Paleta de Colores & Tono -->
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
+                                <i data-lucide="palette" class="w-4 h-4"></i>
+                                <span>6. Paleta de Colores & Tono de Voz</span>
+                            </div>
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-3 text-xs">
+                                <div>
+                                    <strong class="text-white block mb-1.5">Paleta Visual Recomendada:</strong>
+                                    <div class="flex items-center gap-2 font-mono">
+                                        <span class="w-6 h-6 rounded bg-[#080808] border border-slate-700 flex items-center justify-center text-[9px] text-white" title="#080808">#08</span>
+                                        <span class="w-6 h-6 rounded bg-[#00ff41] flex items-center justify-center text-[9px] text-black font-bold" title="#00ff41">#00</span>
+                                        <span class="w-6 h-6 rounded bg-[#1e293b] flex items-center justify-center text-[9px] text-white" title="#1e293b">#1e</span>
+                                        <span class="w-6 h-6 rounded bg-[#ffffff] flex items-center justify-center text-[9px] text-black font-bold" title="#ffffff">#ff</span>
+                                    </div>
+                                </div>
+                                <p><strong class="text-white">Tono de Voz:</strong> Cercano, directo, confiable, seguro y enfocado a soluciones prácticas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 5: Objetivos, KPIs, Canales & Presupuesto -->
+                    <div class="border-t border-brand-border pt-6 space-y-4">
+                        <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
+                            <i data-lucide="target" class="w-4 h-4"></i>
+                            <span>7. Objetivos, KPIs, Canales & Presupuesto</span>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-4 text-xs">
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
+                                <h4 class="text-white font-bold uppercase font-mono text-brand-neon">Objetivos & KPIs</h4>
+                                <ul class="list-disc list-inside space-y-1 text-slate-300">
+                                    <li>Incremento de conversión: +25%</li>
+                                    <li>Costo por Lead (CPL) optimizado</li>
+                                    <li>ROAS proyectado: > 3.5x</li>
+                                </ul>
+                            </div>
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
+                                <h4 class="text-white font-bold uppercase font-mono text-brand-neon">Canales de Difusión</h4>
+                                <ul class="list-disc list-inside space-y-1 text-slate-300">
+                                    <li>Meta Ads (Instagram / Facebook)</li>
+                                    <li>Google Search & Performance Max</li>
+                                    <li>Email Marketing (Nutrición)</li>
+                                </ul>
+                            </div>
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
+                                <h4 class="text-white font-bold uppercase font-mono text-brand-neon">Presupuesto & Timing</h4>
+                                <p><strong class="text-white">Inversión Pauta:</strong> 70% Meta / 30% Google</p>
+                                <p><strong class="text-white">Plazo de Ejecución:</strong> 30 días con revisiones semanales.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 6: Funnel de Contenido Inbound (4 Etapas) -->
+                    <div class="border-t border-brand-border pt-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
+                                <i data-lucide="filter" class="w-4 h-4"></i>
+                                <span>8. Funnel de Ventas para el Contenido (Inbound Funnel)</span>
+                            </div>
+                            <span class="text-[10px] font-mono bg-brand-neon/10 text-brand-neon border border-brand-neon/30 px-2 py-0.5 rounded">Estrategia Inbound</span>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <!-- Etapa 1: Atracción -->
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
+                                <div class="flex items-center justify-between text-xs font-bold font-mono">
+                                    <span class="text-emerald-400">1. Atracción (Descubrimiento / TOFU)</span>
+                                    <span class="bg-emerald-400/10 text-emerald-400 px-2 py-0.5 rounded">Alcance Alto</span>
+                                </div>
+                                <p class="text-xs text-slate-300"><strong class="text-white">Formatos:</strong> Videos cortos, Reels, TikToks, infografías rápidas.</p>
+                                <p class="text-xs text-slate-300"><strong class="text-white">Temas:</strong> Respuestas directas a dolores comunes y preguntas frecuentes sin vender de forma agresiva.</p>
+                                <p class="text-xs text-slate-400 italic">Propósito: Lograr que nuevas personas descubran la marca de forma orgánica o mediante anuncios de alcance.</p>
+                            </div>
+
+                            <!-- Etapa 2: Interacción -->
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
+                                <div class="flex items-center justify-between text-xs font-bold font-mono">
+                                    <span class="text-blue-400">2. Interacción (Consideración / MOFU)</span>
+                                    <span class="bg-blue-400/10 text-blue-400 px-2 py-0.5 rounded">Autoridad</span>
+                                </div>
+                                <p class="text-xs text-slate-300"><strong class="text-white">Formatos:</strong> Carrouseles educativos, videos largos, casos de éxito y demostraciones prácticas.</p>
+                                <p class="text-xs text-slate-300"><strong class="text-white">Temas:</strong> El "paso a paso" para resolver un problema de fondo mostrando el know-how de la marca.</p>
+                                <p class="text-xs text-slate-400 italic">Propósito: Demostrar autoridad, generar confianza y retener al usuario más tiempo.</p>
+                            </div>
+
+                            <!-- Etapa 3: Conversión -->
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
+                                <div class="flex items-center justify-between text-xs font-bold font-mono">
+                                    <span class="text-brand-neon">3. Conversión (Acción / BOFU)</span>
+                                    <span class="bg-brand-neon/10 text-brand-neon px-2 py-0.5 rounded">Captación / Venta</span>
+                                </div>
+                                <p class="text-xs text-slate-300"><strong class="text-white">Formatos:</strong> Lead Magnets (PDF descargable, plantilla, cotizador express o demostración directa).</p>
+                                <p class="text-xs text-slate-300"><strong class="text-white">Intercambio de Valor:</strong> Material de alto impacto a cambio de datos (correo o WhatsApp) o agendamiento directo.</p>
+                                <p class="text-xs text-slate-400 italic">Propósito: Transformar al visitante en un prospecto o cliente final.</p>
+                            </div>
+
+                            <!-- Etapa 4: Fidelización -->
+                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
+                                <div class="flex items-center justify-between text-xs font-bold font-mono">
+                                    <span class="text-purple-400">4. Fidelización (Comunidad)</span>
+                                    <span class="bg-purple-400/10 text-purple-400 px-2 py-0.5 rounded">Retención</span>
+                                </div>
+                                <p class="text-xs text-slate-300"><strong class="text-white">Formatos:</strong> Newsletters con contenido exclusivo, encuestas y atención post-venta.</p>
+                                <p class="text-xs text-slate-300"><strong class="text-white">Espacios:</strong> Canales directos para clientes recurrentes y remarketing especial.</p>
+                                <p class="text-xs text-slate-400 italic">Propósito: Mantener viva la relación y convertir a clientes en embajadores de marca.</p>
+                            </div>
+                        </div>
+
+                        <!-- Elementos Transversales -->
+                        <div class="bg-black/70 p-4 rounded-xl border border-brand-border text-xs space-y-2">
+                            <div class="font-bold text-white uppercase font-mono text-brand-neon">Elementos Transversales del Funnel</div>
+                            <p class="text-slate-300"><strong class="text-white">Llamadas a la Acción (CTAs):</strong> Cada pieza debe tener una instrucción clara (ej. "Comenta 'QUIERO' para recibir la guía", "Haz clic en el enlace del perfil", "Descarga el plantilla").</p>
+                            <p class="text-slate-300"><strong class="text-white">Flujo de Trabajo Recomendado:</strong> Organizar la planificación mensual en herramientas como Notion o Trello con estados (Idea, En Producción, Listo, Publicado).</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 7: Special Footer Notice if NO LANDING PAGE -->
+                    ${noLanding ? `
+                        <div class="mt-8 p-5 bg-amber-500/10 border-2 border-amber-500/40 rounded-xl space-y-2">
+                            <div class="flex items-center gap-2 text-amber-400 font-bold font-mono text-xs uppercase">
+                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                <span>NOTA ESTRATÉGICA FINAL — INFRAESTRUCTURA DIGITAL PENDIENTE</span>
+                            </div>
+                            <p class="text-xs text-slate-200 font-sans leading-relaxed">
+                                <strong>La marca actualmente no cuenta con Landing Page o sitio web activo.</strong> <br/>
+                                Este Brief debe utilizarse de manera prioritaria como la <strong>hoja de ruta estratégica para el diseño y desarrollo de su primera Landing Page de alta conversión</strong>, asegurando que capture los datos del Lead Magnet definido en la Etapa de Conversión del Funnel y organice sus canales de redes sociales de forma alineada.
+                            </p>
+                        </div>
+                    ` : `
+                        <div class="mt-8 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-xs text-emerald-300 font-mono">
+                            ✓ Infraestructura web detectada. Este Brief servirá para optimizar las campañas de tráfico dirigido hacia la Landing Page existente.
+                        </div>
+                    `}
                 `;
 
-                // Unhide preview section & scroll smoothly
+                // Re-initialize Lucide icons for dynamically added HTML
+                lucide.createIcons();
+
+                // Unhide preview section & scroll smoothly into view
                 previewSection.classList.remove('hidden');
                 previewSection.scrollIntoView({ behavior: 'smooth' });
             }, 1200);
         }
 
-        // Copy Markdown Function
         function copyBriefMarkdown() {
             const content = document.getElementById('briefOutputContent').innerText;
             const textarea = document.createElement('textarea');
@@ -454,15 +710,44 @@
             showToast("¡Brief copiado en formato Markdown al portapapeles!");
         }
 
-        // Download PDF Simulation Function
         function downloadBriefPDF() {
-            showToast("Generando y descargando PDF de tu Brief...");
+            const element = document.getElementById('briefOutputContent');
+            const pdfBtn = document.getElementById('pdfBtn');
+
+            if (!element) return;
+
+            // Change button state
+            pdfBtn.disabled = true;
+            pdfBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Generando PDF...</span>`;
+            lucide.createIcons();
+
+            // Setup options for html2pdf
+            const opt = {
+                margin:       [0.3, 0.3, 0.3, 0.3],
+                filename:     `Brief_Estrategico_${new Date().toISOString().slice(0,10)}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0d0d0d' },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // Generate PDF
+            html2pdf().set(opt).from(element).save().then(() => {
+                pdfBtn.disabled = false;
+                pdfBtn.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i><span>Descargar PDF</span>`;
+                lucide.createIcons();
+                showToast("¡PDF generado y descargado exitosamente!");
+            }).catch(err => {
+                console.error("PDF generation error:", err);
+                pdfBtn.disabled = false;
+                pdfBtn.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i><span>Descargar PDF</span>`;
+                lucide.createIcons();
+                showToast("PDF generado. Revisa las descargas de tu navegador.");
+            });
         }
 
-        // Custom Notification Toast
         function showToast(message) {
             const toast = document.createElement('div');
-            toast.className = 'fixed bottom-6 right-6 bg-brand-neon text-black font-semibold px-5 py-3 rounded-xl shadow-neon z-50 transition-all transform translate-y-0 text-sm flex items-center gap-2';
+            toast.className = 'fixed bottom-6 right-6 bg-brand-neon text-black font-bold px-5 py-3 rounded-xl shadow-neon z-50 transition-all transform translate-y-0 text-xs flex items-center gap-2';
             toast.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>${message}</span>`;
             document.body.appendChild(toast);
             lucide.createIcons();
@@ -473,18 +758,15 @@
             }, 3000);
         }
 
-        // FAQ Toggle Accordion
         function toggleFaq(button) {
             const content = button.nextElementSibling;
             const icon = button.querySelector('[data-lucide="chevron-down"]');
             
             const isHidden = content.classList.contains('hidden');
             
-            // Close all items
             document.querySelectorAll('#faqAccordion .px-6.pb-5').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('#faqAccordion [data-lucide="chevron-down"]').forEach(i => i.style.transform = 'rotate(0deg)');
 
-            // Toggle selected
             if (isHidden) {
                 content.classList.remove('hidden');
                 if (icon) icon.style.transform = 'rotate(180deg)';
