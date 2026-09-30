@@ -84,7 +84,7 @@
             padding: 24px !important;
             font-family: 'Inter', sans-serif !important;
         }
-            .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+        .avoid-break { break-inside: avoid; page-break-inside: avoid; }
     </style>
 </head>
 <body class="bg-brand-black text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-neon selection:text-black">
@@ -405,7 +405,6 @@
                         </div>
                     </div>
 
-                    
                     <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
                         <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-base hover:text-brand-neon transition-colors">
                             <span>¿Puedo ingresar un enlace de Instagram o redes sociales en lugar de una web?</span>
@@ -485,12 +484,12 @@
         const arr = a => Array.isArray(a) ? a : (a ? [a] : []);
 
         document.addEventListener('DOMContentLoaded', () => {
-            try { $('apiKey').value = localStorage.getItem('brief_gemini_key') || ''; $('apiModel').value = localStorage.getItem('brief_gemini_model') || 'gemini-2.5-flash'; } catch (e) {}
+            try { $('apiKey').value = localStorage.getItem('brief_gemini_key') \vert{}\vert{} '';$('apiModel').value = localStorage.getItem('brief_gemini_model') || 'gemini-2.5-flash'; } catch (e) {}
             refreshKeyStatus(); $('apiKey').addEventListener('input', refreshKeyStatus);
             setStep(1); lucide.createIcons();
         });
 
-        function refreshKeyStatus() { $('keyStatus').textContent = $('apiKey').value.trim() ? '' : '· falta la API Key'; }
+        function refreshKeyStatus() { $('keyStatus').textContent =$('apiKey').value.trim() ? '' : '· falta la API Key'; }
 
         function setStep(n) {
             document.querySelectorAll('.step-dot').forEach(d => {
@@ -517,7 +516,7 @@
 
         /* ---------- Conexión a Gemini ---------- */
         async function callGemini(prompt, toolSets) {
-            const key = $('apiKey').value.trim(), model = $('apiModel').value.trim() || 'gemini-2.5-flash';
+            const key = $('apiKey').value.trim(), model =$('apiModel').value.trim() || 'gemini-2.5-flash';
             if (!key) { $('apiSettings').open = true; throw new Error('Falta la API Key de Gemini. Pégala en "Conexión IA".'); }
             try { localStorage.setItem('brief_gemini_key', key); localStorage.setItem('brief_gemini_model', model); } catch (e) {}
             let lastErr;
@@ -536,7 +535,7 @@
                     return { text, sources: chunks.map(c => c.web).filter(Boolean) };
                 }
                 lastErr = new Error(data.error?.message || `Error ${res.status}`);
-                if (res.status === 400 && /tool|url_context|search/i.test(lastErr.message)) continue; // prueba con menos herramientas
+                if (res.status === 400 && /tool|url_context|search/i.test(lastErr.message)) continue;
                 if (res.status === 400 || res.status === 403 || res.status === 401) throw lastErr;
             }
             throw lastErr || new Error('No se pudo conectar con la IA.');
@@ -554,7 +553,7 @@
             const btn = $('generateBtn');
             setBtn(btn, 'scan-search', 'Leyendo y analizando la marca...', true);
             const prompt = `Eres un analista de marketing y research. Debes identificar QUÉ es y QUÉ HACE la marca cuyo enlace es: ${url}
-Usa tus herramientas para LEER esa URL directamente y complementar con búsqueda web pública. Reglas estrictas:
+Usa tus herramientas para LEER esa URL directamente y complementar con búsqueda web pública. Reglas strictly:
 - No inventes datos. Si no pudiste leer la URL (p. ej. Instagram/Facebook piden login) o no pudiste verificar algo, dilo en "notas_verificacion" y baja la "confianza".
 - Distingue lo observado de lo inferido.
 - Si hay otras marcas con nombre parecido que podrían confundirse con esta, indícalo en "posibles_homonimos".
@@ -572,8 +571,7 @@ Usa tus herramientas para LEER esa URL directamente y complementar con búsqueda
 
         function renderConfirm(url) {
             const a = analysis;
-            $('editName').value = a.nombre || '';
-            $('editType').value = TYPE_LABEL[a.tipo] ? a.tipo : 'pyme';
+            $('editName').value = a.nombre \vert{}\vert{} '';$('editType').value = TYPE_LABEL[a.tipo] ? a.tipo : 'pyme';
             $('editDesc').value = a.que_hace || '';
             const conf = (a.confianza || 'baja').toLowerCase();
             const cls = { alta: 'text-brand-neon border-brand-neon/40 bg-brand-neon/10', media: 'text-amber-400 border-amber-400/40 bg-amber-400/10', baja: 'text-rose-400 border-rose-400/40 bg-rose-400/10' }[conf] || 'text-rose-400 border-rose-400/40';
@@ -592,23 +590,22 @@ Usa tus herramientas para LEER esa URL directamente y complementar con búsqueda
                     ${row('Notas de verificación', a.notas_verificacion)}${src}
                 </div>`;
             updateSentence();
-            $('briefForm').classList.add('hidden'); $('confirmCard').classList.remove('hidden');
+            $('briefForm').classList.add('hidden');$('confirmCard').classList.remove('hidden');
             setStep(2); lucide.createIcons();
         }
 
         function updateSentence() {
-            const n = $('editName').value.trim() || '[nombre]', t = TYPE_LABEL[$('editType').value], d = $('editDesc').value.trim() || '[lo que hace]';
-            $('confSentence').innerHTML = `Hemos identificado que <strong class="text-brand-neon">${esc(n)}</strong> es ${t} enfocado en <strong class="text-brand-neon">${esc(d)}</strong>. <span class="text-slate-300">¿Es correcto?</span>`;
+            const n = $('editName').value.trim() \vert{}\vert{} '[nombre]', t = TYPE_LABEL[$('editType').value], d = $('editDesc').value.trim() \vert{}\vert{} '[lo que hace]';$('confSentence').innerHTML = `Hemos identificado que <strong class="text-brand-neon">${esc(n)}</strong> es ${t} enfocado en <strong class="text-brand-neon">${esc(d)}</strong>. <span class="text-slate-300">¿Es correcto?</span>`;
         }
 
         function backToStep1() {
-            $('confirmCard').classList.add('hidden'); $('briefForm').classList.remove('hidden'); setStep(1);
+            $('confirmCard').classList.add('hidden');$('briefForm').classList.remove('hidden'); setStep(1);
         }
 
         /* ---------- PASO 2 → 3: Generar brief ---------- */
         async function confirmAndGenerate() {
-            const btn = $('confirmBtn'), noLanding = $('noLandingPage').checked, url = $('brandUrl').value.trim();
-            const profile = { ...analysis, nombre: $('editName').value.trim(), tipo: $('editType').value, que_hace: $('editDesc').value.trim() };
+            const btn = $('confirmBtn'), noLanding = $('noLandingPage').checked, url =$('brandUrl').value.trim();
+            const profile = { ...analysis, nombre: $('editName').value.trim(), tipo: $('editType').value, que_hace:$('editDesc').value.trim() };
             const st = STAGES[selectedCampaign];
             lastCtx = { url, noLanding, stage: selectedCampaign, profile };
             setBtn(btn, 'check', 'Construyendo el brief...', true);
@@ -684,7 +681,7 @@ Responde SOLO con un objeto JSON válido (sin markdown) con esta forma exacta:
                         <span class="bg-black/80 border border-brand-border px-3 py-1.5 rounded-lg text-slate-300">CAMPAÑA: <strong class="text-white">${esc(st.label)}</strong></span>
                     </div>
                 </div>
-                ${sec('book-open', N() + ' ADN de Marca & Historia', card(line('Qué es y qué hace', `${p.nombre} es ${TYPE_LABEL[p.tipo]} enfocado en ${p.que_hace}`) + line('Descripción', b.adn?.descripcion) + line('Historia & misión', b.adn?.historia_mision) + line('Propuesta de valor', b.adn?.propuesta_valor)))}
+                ${sec('book-open', N() + ' ADN de Marca & Historia', card(line('Qué es y qué hace', `${p.nombre} es ${TYPE_LABEL[p.tipo]} enfocado en${p.que_hace}`) + line('Descripción', b.adn?.descripcion) + line('Historia & misión', b.adn?.historia_mision) + line('Propuesta de valor', b.adn?.propuesta_valor)))}
                 ${sec('server', N() + ' Diagnóstico de Infraestructura Digital', card(line('Canal analizado', c.url) + `<p class="${c.noLanding ? 'text-amber-400' : 'text-brand-neon'} font-semibold">${c.noLanding ? '⚠️ La marca NO cuenta con landing page / sitio web.' : '✓ La marca cuenta con sitio web / landing para recibir tráfico.'}</p>` + line('Diagnóstico', b.infraestructura?.diagnostico) + ul(b.infraestructura?.recomendaciones)) +
                     (c.noLanding && b.landing_plan ? card(`<strong class="text-amber-400 font-mono uppercase text-xs">Plan técnico para su primera landing</strong>` + ul(b.landing_plan.secciones) + `<strong class="text-white block pt-2">Recomendaciones técnicas</strong>` + ul(b.landing_plan.recomendaciones_tecnicas)) : ''))}
                 ${sec('layout-grid', N() + ' Análisis FODA', `<div class="grid sm:grid-cols-2 gap-3 text-xs">
@@ -693,10 +690,10 @@ Responde SOLO con un objeto JSON válido (sin markdown) con esta forma exacta:
                 ${sec('users', N() + ' Público Objetivo (Buyer Persona)', card(line('Persona', b.buyer_persona?.nombre) + line('Edad', b.buyer_persona?.edad) + line('Perfil', b.buyer_persona?.perfil) + `<strong class="text-white">Puntos de dolor</strong>` + ul(b.buyer_persona?.dolores) + `<strong class="text-white">Motivaciones</strong>` + ul(b.buyer_persona?.motivaciones)))}
                 ${sec('palette', N() + ' Paleta de Colores (HEX) & Guía Estética', card(`<p class="text-slate-400 text-[11px]">Paleta ${b.paleta_origen === 'observada' ? 'observada en la marca' : 'sugerida (no verificada en la marca)'}</p><div class="flex flex-wrap gap-3">${arr(b.paleta).map(x => `<div class="flex items-center gap-2 avoid-break"><span class="w-10 h-10 rounded-lg border border-slate-600 flex items-center justify-center text-[9px] font-mono ${dark(x.hex) ? 'text-white' : 'text-black'}" style="background:${hex(x.hex)}">${esc(hex(x.hex))}</span><span class="text-slate-300 text-xs"><strong class="text-white">${esc(x.nombre)}</strong><br>${esc(x.uso)}</span></div>`).join('')}</div>` + line('Guía estética', b.guia_estetica)))}
                 ${sec('message-square-quote', N() + ' Mensaje Clave & Tono de Voz', card(line('Mensaje clave', b.mensaje?.clave) + line('Tono de voz', b.mensaje?.tono) + ul(b.mensaje?.ejemplos)))}
-                ${sec('target', N() + ' Objetivos & KPIs', card(arr(b.objetivos_kpis).map(o => `<p class="text-slate-300">• <strong class="text-white">${esc(o.objetivo)}</strong> — KPI: ${esc(o.kpi)} — Meta referencial: ${esc(o.meta)}</p>`).join('')))}
+                ${sec('target', N() + ' Objetivos & KPIs', card(arr(b.objetivos_kpis).map(o => `<p class="text-slate-300">• <strong class="text-white">${esc(o.objetivo)}</strong> — KPI: ${esc(o.kpi)} — Meta referencial:${esc(o.meta)}</p>`).join('')))}
                 ${sec('radio-tower', N() + ' Canales de Difusión & Matriz de Medios', card(arr(b.canales).map(x => `<p class="text-slate-300">• <strong class="text-white">${esc(x.canal)}</strong> — ${esc(x.rol)} (${esc(x.frecuencia)})</p>`).join('')))}
-                ${sec('wallet', N() + ' Presupuesto & Distribución (referencial)', card(arr(b.presupuesto).map(x => `<p class="text-slate-300">• <strong class="text-white">${esc(x.item)}: ${esc(x.porcentaje)}</strong> — ${esc(x.detalle)}</p>`).join('')))}
-                ${sec('calendar-days', N() + ' Calendario, Timing & Flujo de Trabajo (Notion / Trello)', card(arr(b.calendario?.semanas).map(w => `<p class="text-slate-300"><strong class="text-white">${esc(w.semana)} — ${esc(w.foco)}:</strong> ${arr(w.entregables).map(esc).join('; ')}</p>`).join('') + line('Flujo de trabajo', b.calendario?.flujo_trabajo)))}
+                ${sec('wallet', N() + ' Presupuesto & Distribución (referencial)', card(arr(b.presupuesto).map(x => `<p class="text-slate-300">• <strong class="text-white">${esc(x.item)}: ${esc(x.porcentaje)}</strong> —${esc(x.detalle)}</p>`).join('')))}
+                ${sec('calendar-days', N() + ' Calendario, Timing & Flujo de Trabajo (Notion / Trello)', card(arr(b.calendario?.semanas).map(w => `<p class="text-slate-300"><strong class="text-white">${esc(w.semana)} — ${esc(w.foco)}:</strong>${arr(w.entregables).map(esc).join('; ')}</p>`).join('') + line('Flujo de trabajo', b.calendario?.flujo_trabajo)))}
                 ${sec('crosshair', N() + ' Estrategia de la Etapa Foco: ' + esc(st.label), card(line('Enfoque', b.estrategia_etapa?.enfoque) + `<strong class="text-white">Acciones</strong>` + ul(b.estrategia_etapa?.acciones) + `<strong class="text-white">Ideas de contenido</strong>` + ul(b.estrategia_etapa?.ideas_contenido) + line('CTA principal', b.estrategia_etapa?.cta) + line('Métricas de la etapa', arr(b.estrategia_etapa?.metricas).join(', '))))}
                 ${sec('filter', N() + ' Funnel de Contenidos Inbound', `<div class="grid md:grid-cols-2 gap-4">${funnelCards}</div>` + card(`<strong class="text-brand-neon font-mono uppercase text-xs">Elementos transversales</strong>` + ul(b.funnel?.ctas_transversales) + line('Flujo Notion / Trello', b.funnel?.flujo_notion_trello)))}
                 ${noLandBlock}${srcBlock}`;
@@ -717,7 +714,7 @@ Responde SOLO con un objeto JSON válido (sin markdown) con esta forma exacta:
                 H('Análisis FODA'), `**Fortalezas**\n${L(b.foda?.fortalezas)}\n\n**Oportunidades**\n${L(b.foda?.oportunidades)}\n\n**Debilidades**\n${L(b.foda?.debilidades)}\n\n**Amenazas**\n${L(b.foda?.amenazas)}`,
                 H('Competencia & Ventaja Única'), `${L(b.competencia?.competidores)}\n\n**Ventaja única:** ${b.competencia?.ventaja_unica || ''}`,
                 H('Público Objetivo (Buyer Persona)'), `**${b.buyer_persona?.nombre || ''}** — ${b.buyer_persona?.edad || ''}\n\n${b.buyer_persona?.perfil || ''}\n\n**Dolores**\n${L(b.buyer_persona?.dolores)}\n\n**Motivaciones**\n${L(b.buyer_persona?.motivaciones)}`,
-                H('Paleta de Colores & Guía Estética'), `_Paleta ${b.paleta_origen === 'observada' ? 'observada' : 'sugerida'}_\n\n${arr(b.paleta).map(x => `- \`${x.hex}\` ${x.nombre}: ${x.uso}`).join('\n')}\n\n${b.guia_estetica || ''}`,
+                H('Paleta de Colores & Guía Estética'), `_Paleta ${b.paleta_origen === 'observada' ? 'observada' : 'sugerida'}_\n\n${arr(b.paleta).map(x => `- \`${x.hex}\` ${x.nombre}:${x.uso}`).join('\n')}\n\n${b.guia_estetica || ''}`,
                 H('Mensaje Clave & Tono de Voz'), `**Mensaje:** ${b.mensaje?.clave || ''}\n\n**Tono:** ${b.mensaje?.tono || ''}\n\n${L(b.mensaje?.ejemplos)}`,
                 H('Objetivos & KPIs'), arr(b.objetivos_kpis).map(o => `- **${o.objetivo}** — KPI: ${o.kpi} — Meta referencial: ${o.meta}`).join('\n'),
                 H('Canales de Difusión & Matriz de Medios'), arr(b.canales).map(x => `- **${x.canal}** — ${x.rol} (${x.frecuencia})`).join('\n'),
@@ -743,7 +740,7 @@ Responde SOLO con un objeto JSON válido (sin markdown) con esta forma exacta:
 
         /* ---------- PDF ---------- */
         function downloadBriefPDF() {
-            const element = $('briefOutputContent'), pdfBtn = $('pdfBtn');
+            const element = $('briefOutputContent'), pdfBtn =$('pdfBtn');
             if (!lastBrief) return;
             pdfBtn.disabled = true;
             pdfBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Generando PDF...</span>`; lucide.createIcons();
@@ -772,34 +769,40 @@ Responde SOLO con un objeto JSON válido (sin markdown) con esta forma exacta:
             document.querySelectorAll('#faqAccordion button svg').forEach(i => i.style.transform = 'rotate(0deg)');
             if (isHidden) { content.classList.remove('hidden'); if (icon) icon.style.transform = 'rotate(180deg)'; }
         }
+
+        /* ---------- Función Opcional Serverless / API Backend ---------- */
         async function generateBriefWithVercel() {
-  const brandUrl = document.getElementById('brandUrl').value;
-  const noLanding = document.getElementById('noLandingCheckbox').checked;
+            const brandUrl = $('brandUrl').value.trim();
+            const noLanding = $('noLandingPage').checked;
 
-  const response = await fetch('/api/generate', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      brandUrl: brandUrl,
-      stage: selectedStage, // 'TOFU - Atracción', etc.
-      noLanding: noLanding
-    })
-  });
+            if (!brandUrl) {
+                showToast('Ingresa un enlace válido', true);
+                return;
+            }
 
-  const data = await response.json();
-  
-  if (data.result) {
-    console.log("Brief generado de forma segura:", data.result);
-    // Mostrar resultado en pantalla...
-      document.getElementById('briefOutputContent').innerHTML = data.result.replace(/\n/g, '<br>');
-document.getElementById('previewSection').classList.remove('hidden');
-document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
-  } else {
-    alert("Error: " + data.error);
-  }
-}
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        brandUrl: brandUrl,
+                        stage: selectedCampaign,
+                        noLanding: noLanding
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.result) {
+                    $('briefOutputContent').innerHTML = data.result.replace(/\n/g, '<br>');
+                    $('previewSection').classList.remove('hidden');$('previewSection').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    showToast("Error: " + (data.error || 'Respuesta vacía del servidor'), true);
+                }
+            } catch (err) {
+                showToast("Error al conectar con la API: " + err.message, true);
+            }
+        }
     </script>
 </body>
 </html>
