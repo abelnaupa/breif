@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brief_ | Crea tu Brief de Marketing y Brief para Clientes gratis</title>
+    
+    <!-- Meta tags SEO -->
+    <meta name="description" content="Crea un brief de marketing o un brief para clientes gratis en minutos. La IA analiza la marca y arma el brief completo para cualquier campaña. Descárgalo en PDF.">
+    <meta name="theme-color" content="#00ff41" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#080808',
+                            card: '#121212',
+                            border: '#222222',
+                            neon: '#00ff41',
+                            neonHover: '#00cc33',
+                            muted: '#a0a0a0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace']
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px rgba(0, 255, 65, 0.25)',
+                        'neon-lg': '0 0 35px rgba(0, 255, 65, 0.4)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom scrollbars & glassmorphism elements */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080808;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00ff41;
+        }
+        .glass-card {
+            background: rgba(18, 18, 18, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card-neon {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+        }
+        .neon-glow-text {
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-brand-black text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-neon selection:text-black">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 glass-card border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <span class="font-bold text-2xl tracking-wider font-mono text-white">
+                    Brief<span class="text-brand-neon transition-all duration-300 group-hover:neon-glow-text">_</span>
+                </span>
+                <span class="bg-brand-neon/10 border border-brand-neon/30 text-brand-neon text-[10px] font-mono uppercase px-2 py-0.5 rounded-full">AI 2.0</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-slate-300">
+                <a href="#como-funciona" class="hover:text-brand-neon transition-colors">¿Cómo funciona?</a>
+                <a href="#generador" class="hover:text-brand-neon transition-colors">Generador</a>
+                <a href="#casos" class="hover:text-brand-neon transition-colors">Casos de Uso</a>
+                <a href="#faq" class="hover:text-brand-neon transition-colors">Preguntas Frecuentes</a>
+            </nav>
+
+            <!-- Action Button -->
+            <div class="flex items-center gap-4">
+                <a href="#generador" class="bg-brand-neon text-black font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-neonHover transition-all shadow-neon hover:shadow-neon-lg flex items-center gap-2 text-sm">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>Crear Brief Gratis</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Hero Section -->
+    <main class="flex-grow">
+        <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+            <!-- Neon background glows -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-neon/10 blur-[140px] rounded-full pointer-events-none"></div>
+
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-brand-border text-slate-300 text-xs font-mono mb-8">
+                    <span class="w-2 h-2 rounded-full bg-brand-neon animate-pulse"></span>
+                    <span>Agencia & IA para Marcas de Alto Rendimiento</span>
+                </div>
+
+                <!-- Main Heading -->
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                    Crea tu Brief de Marketing <br class="hidden sm:inline"/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-brand-neon">con Inteligencia Artificial</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-lg sm:text-xl text-brand-muted max-w-3xl mx-auto mb-10 leading-relaxed">
+                    Analizamos tu marca, definimos tu audiencia objetivo y construimos el brief perfecto para cualquier campaña en menos de 2 minutos. Descárgalo en PDF o exportalo directamente a ChatGPT, Claude y Gemini.
+                </p>
+
+                <!-- Interactive Form Card -->
+                <div id="generador" class="glass-card-neon rounded-2xl p-6 sm:p-8 max-w-3xl mx-auto text-left shadow-2xl relative">
+                    <form id="briefForm" class="space-y-6" onsubmit="event.preventDefault(); generateBrief();">
+                        <div>
+                            <label for="brandUrl" class="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
+                                Sitio Web / Dominio de tu Marca o Empresa
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                    <i data-lucide="globe" class="w-5 h-5"></i>
+                                </div>
+                                <input type="text" id="brandUrl" required placeholder="ej. miempresa.com o mi-tienda.cl" class="w-full pl-11 pr-4 py-3.5 bg-black/60 border border-brand-border rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all font-mono text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Campaign Types Select -->
+                        <div>
+                            <label class="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
+                                Tipo de Campaña / Ocasión
+                            </label>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="campaignSelector">
+                                <button type="button" onclick="selectCampaign(this, 'CyberDay')" class="campaign-btn active bg-brand-neon/20 border-brand-neon text-brand-neon border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="shopping-bag" class="w-4 h-4"></i> CyberDay / Sale
+                                </button>
+                                <button type="button" onclick="selectCampaign(this, 'Lanzamiento de Producto')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="rocket" class="w-4 h-4"></i> Lanzamiento
+                                </button>
+                                <button type="button" onclick="selectCampaign(this, 'Black Friday')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="tag" class="w-4 h-4"></i> Black Friday
+                                </button>
+                                <button type="button" onclick="selectCampaign(this, 'Performance & Ads')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="trending-up" class="w-4 h-4"></i> Performance
+                                </button>
+                                <button type="button" onclick="selectCampaign(this, 'Campaña Corporativa')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="briefcase" class="w-4 h-4"></i> Corporativa
+                                </button>
+                                <button type="button" onclick="selectCampaign(this, 'Redes Sociales')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="share-2" class="w-4 h-4"></i> Redes / Contenido
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- CTA Generate Button -->
+                        <button type="submit" id="generateBtn" class="w-full py-4 bg-brand-neon hover:bg-brand-neonHover text-black font-bold rounded-xl transition-all shadow-neon hover:shadow-neon-lg flex items-center justify-center gap-3 text-base">
+                            <i data-lucide="cpu" class="w-5 h-5"></i>
+                            <span>Generar Brief Gratis con IA</span>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Live Draft Preview Section -->
+        <section id="previewSection" class="py-12 bg-black/80 border-t border-b border-brand-border hidden">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <div class="flex items-center gap-2 text-brand-neon font-mono text-xs mb-1">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                            <span>BRIEF GENERADO EXITOSAMENTE</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white">Vista Previa e Inspección del Brief</h2>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="copyBriefMarkdown()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all">
+                            <i data-lucide="copy" class="w-4 h-4"></i> Copiar Markdown
+                        </button>
+                        <button onclick="downloadBriefPDF()" class="bg-brand-neon text-black font-semibold px-4 py-2 rounded-lg text-sm flex items-center gap-2 hover:bg-brand-neonHover transition-all shadow-neon">
+                            <i data-lucide="download" class="w-4 h-4"></i> Descargar PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Generated Brief Container -->
+                <div class="glass-card rounded-2xl p-6 sm:p-8 border border-brand-border space-y-8 font-mono text-sm leading-relaxed" id="briefOutputContent">
+                    <!-- Dynamic Brief Content Loaded Here -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="como-funciona" class="py-20 border-t border-brand-border bg-brand-black relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-xs font-mono uppercase tracking-widest text-brand-neon mb-3">Flujo de Trabajo</h2>
+                    <p class="text-3xl sm:text-4xl font-bold text-white tracking-tight">¿Cómo funciona la IA de Brief_?</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Step 1 -->
+                    <div class="glass-card p-8 rounded-2xl border border-brand-border relative group hover:border-brand-neon/50 transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-brand-neon/10 border border-brand-neon/30 text-brand-neon flex items-center justify-center font-mono font-bold text-xl mb-6">
+                            01
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Ingresa la URL</h3>
+                        <p class="text-brand-muted text-sm leading-relaxed">
+                            Añade el enlace de tu marca o tienda online. Nuestro motor escanea la proposición de valor, catálogo e identidad.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="glass-card p-8 rounded-2xl border border-brand-border relative group hover:border-brand-neon/50 transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-brand-neon/10 border border-brand-neon/30 text-brand-neon flex items-center justify-center font-mono font-bold text-xl mb-6">
+                            02
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Procesamiento IA</h3>
+                        <p class="text-brand-muted text-sm leading-relaxed">
+                            La arquitectura analiza el público objetivo, competencia, canales ideales, tono de voz y metas comerciales de la campaña.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="glass-card p-8 rounded-2xl border border-brand-border relative group hover:border-brand-neon/50 transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-brand-neon/10 border border-brand-neon/30 text-brand-neon flex items-center justify-center font-mono font-bold text-xl mb-6">
+                            03
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Brief Listo para Ejecutar</h3>
+                        <p class="text-brand-muted text-sm leading-relaxed">
+                            Recibe una estructura profesional accionable en PDF o formato prompt optimizado para tus modelos de IA favoritos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-20 bg-brand-card/50 border-t border-brand-border">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-14">
+                    <h2 class="text-xs font-mono uppercase tracking-widest text-brand-neon mb-3">Resolviendo Dudas</h2>
+                    <p class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Preguntas Frecuentes</p>
+                </div>
+
+                <!-- Accordion Items -->
+                <div class="space-y-4" id="faqAccordion">
+                    
+                    <!-- FAQ Item 1 -->
+                    <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-lg hover:text-brand-neon transition-colors">
+                            <span>¿Qué es un brief de marketing y para qué sirve?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300"></i>
+                        </button>
+                        <div class="px-6 pb-5 text-brand-muted text-sm leading-relaxed hidden">
+                            Un brief es un documento estratégico y conciso que resume los objetivos, público objetivo, mensajes clave, canales y entregables esperados para una campaña. Sirve para alinear a clientes, agencias, diseñadores e Inteligencias Artificiales bajo una misma hoja de ruta.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-lg hover:text-brand-neon transition-colors">
+                            <span>¿Cómo hacer un brief de marketing eficaz con esta herramienta?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300"></i>
+                        </button>
+                        <div class="px-6 pb-5 text-brand-muted text-sm leading-relaxed hidden">
+                            Con Brief_ solo debes ingresar el sitio web de tu marca y seleccionar la ocasión o tipo de campaña (CyberDay, Lanzamiento, Black Friday, etc.). Nuestra IA extrae el ADN de tu marca y genera automáticamente las secciones clave del brief para que las descargues o utilices como prompt.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-lg hover:text-brand-neon transition-colors">
+                            <span>¿Brief_ es totalmente gratis?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300"></i>
+                        </button>
+                        <div class="px-6 pb-5 text-brand-muted text-sm leading-relaxed hidden">
+                            Sí, puedes generar, copiar y descargar tus briefs de marketing completamente gratis. Si necesitas que un equipo especializado ejecute las estrategias y campañas diseñadas, ofrecemos nuestro servicio **Brief_ Performance**.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-lg hover:text-brand-neon transition-colors">
+                            <span>¿Puedo exportar el brief a ChatGPT, Claude o Gemini?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300"></i>
+                        </button>
+                        <div class="px-6 pb-5 text-brand-muted text-sm leading-relaxed hidden">
+                            ¡Exacto! El botón "Copiar Markdown" estructura la información en un formato optimizado para que lo pegues como super-prompt en cualquier modelo de IA conversacional y continúes creando copys, piezas gráficas o estrategias de pauta.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-black border-t border-brand-border py-12 text-xs text-brand-muted">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <!-- Brand Info -->
+                <div class="flex items-center gap-3">
+                    <span class="font-bold text-xl tracking-wider font-mono text-white">Brief<span class="text-brand-neon">_</span></span>
+                    <span class="text-slate-600">|</span>
+                    <span>Plataforma de Briefs de Marketing con IA</span>
+                </div>
+
+                <!-- Copyright & Credits -->
+                <div class="text-center md:text-right space-y-1">
+                    <p>Brief_ © 2026. Todos los derechos reservados.</p>
+                    <p class="text-slate-500">Desarrollado por <span class="text-slate-300 font-medium">Andy Grow - Brief</span> • Santiago, Chile 🇨🇱</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let selectedCampaign = 'CyberDay';
+
+        // Initialize icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+
+        // Campaign Selector
+        function selectCampaign(button, campaignType) {
+            document.querySelectorAll('.campaign-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-neon/20', 'border-brand-neon', 'text-brand-neon');
+                btn.classList.add('bg-black/50', 'border-brand-border', 'text-slate-300');
+            });
+            button.classList.remove('bg-black/50', 'border-brand-border', 'text-slate-300');
+            button.classList.add('bg-brand-neon/20', 'border-brand-neon', 'text-brand-neon');
+            selectedCampaign = campaignType;
+        }
+
+        // Generate Brief Action Simulation
+        function generateBrief() {
+            const urlInput = document.getElementById('brandUrl').value.trim();
+            if (!urlInput) return;
+
+            const btn = document.getElementById('generateBtn');
+            const previewSection = document.getElementById('previewSection');
+            const output = document.getElementById('briefOutputContent');
+
+            // Button loading state
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i><span>Analizando ${urlInput}...</span>`;
+            lucide.createIcons();
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="cpu" class="w-5 h-5"></i><span>Generar Brief Gratis con IA</span>`;
+                lucide.createIcons();
+
+                // Format domain clean name
+                let domainName = urlInput.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+                domainName = domainName.charAt(0).toUpperCase() + domainName.slice(1);
+
+                // Build Brief Content
+                output.innerHTML = `
+                    <div class="border-b border-brand-border pb-4 mb-4 flex flex-wrap justify-between items-center gap-2">
+                        <span class="text-brand-neon font-bold text-base"># BRIEF ESTRATÉGICO DE MARKETING</span>
+                        <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded">MARCA: ${domainName}</span>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 text-slate-300">
+                        <div class="space-y-2">
+                            <h4 class="text-brand-neon text-xs uppercase tracking-wider font-bold">1. Resumen de Marca</h4>
+                            <p class="text-slate-400">Marca/Dominio: <strong class="text-white">${domainName}</strong></p>
+                            <p class="text-slate-400">Tipo de Campaña: <strong class="text-white">${selectedCampaign}</strong></p>
+                            <p class="text-slate-400">Tono de Voz sugerido: <strong class="text-white">Persuasivo, Moderno, Orientado a Acción</strong></p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-brand-neon text-xs uppercase tracking-wider font-bold">2. Objetivos Principales</h4>
+                            <ul class="list-disc list-inside space-y-1 text-slate-300">
+                                <li>Maximizar conversiones directas en ${selectedCampaign}.</li>
+                                <li>Incrementar el Retorno de Inversión en Pauta (ROAS) en un 25%.</li>
+                                <li>Capturar leads cualificados para remarketing posterior.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-brand-border pt-4 mt-4 grid md:grid-cols-2 gap-6 text-slate-300">
+                        <div class="space-y-2">
+                            <h4 class="text-brand-neon text-xs uppercase tracking-wider font-bold">3. Target / Público Objetivo</h4>
+                            <p><strong class="text-white">Edad:</strong> 25 a 45 años</p>
+                            <p><strong class="text-white">Intereses:</strong> Compras digitales, innovación, soluciones rápidas, ofertas exclusivas.</p>
+                            <p><strong class="text-white">Punto de Dolor:</strong> Falta de tiempo, búsqueda de ofertas reales y confianza en la compra online.</p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-brand-neon text-xs uppercase tracking-wider font-bold">4. Canales & Entregables Recomendados</h4>
+                            <ul class="list-disc list-inside space-y-1 text-slate-300">
+                                <li><strong>Meta Ads (IG/FB):</strong> 3 carruseles de producto + 2 Reels dinámicos.</li>
+                                <li><strong>Google Search & Performance Max:</strong> Anuncios enfocados en intención alta.</li>
+                                <li><strong>Email Marketing:</strong> Secuencia de 3 correos (Previo, Lanzamiento, Últimas Horas).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-brand-border pt-4 mt-4 space-y-2">
+                        <h4 class="text-brand-neon text-xs uppercase tracking-wider font-bold">5. Propuesta de Valor & Mensaje Clave</h4>
+                        <div class="bg-black/50 p-4 rounded-xl border border-brand-border text-slate-200 italic">
+                            "Consigue las mejores soluciones y productos de ${domainName} con beneficios exclusivos para esta campaña de ${selectedCampaign}. Calidad garantizada en tiempo récord."
+                        </div>
+                    </div>
+                `;
+
+                // Unhide preview section & scroll smoothly
+                previewSection.classList.remove('hidden');
+                previewSection.scrollIntoView({ behavior: 'smooth' });
+            }, 1200);
+        }
+
+        // Copy Markdown Function
+        function copyBriefMarkdown() {
+            const content = document.getElementById('briefOutputContent').innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = content;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            showToast("¡Brief copiado en formato Markdown al portapapeles!");
+        }
+
+        // Download PDF Simulation Function
+        function downloadBriefPDF() {
+            showToast("Generando y descargando PDF de tu Brief...");
+        }
+
+        // Custom Notification Toast
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 bg-brand-neon text-black font-semibold px-5 py-3 rounded-xl shadow-neon z-50 transition-all transform translate-y-0 text-sm flex items-center gap-2';
+            toast.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // FAQ Toggle Accordion
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('[data-lucide="chevron-down"]');
+            
+            const isHidden = content.classList.contains('hidden');
+            
+            // Close all items
+            document.querySelectorAll('#faqAccordion .px-6.pb-5').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('#faqAccordion [data-lucide="chevron-down"]').forEach(i => i.style.transform = 'rotate(0deg)');
+
+            // Toggle selected
+            if (isHidden) {
+                content.classList.remove('hidden');
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+</body>
+</html>
