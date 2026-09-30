@@ -84,6 +84,7 @@
             padding: 24px !important;
             font-family: 'Inter', sans-serif !important;
         }
+            .avoid-break { break-inside: avoid; page-break-inside: avoid; }
     </style>
 </head>
 <body class="bg-brand-black text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-neon selection:text-black">
@@ -139,17 +140,24 @@
 
                 <!-- Subtitle -->
                 <p class="text-lg sm:text-xl text-brand-muted max-w-3xl mx-auto mb-10 leading-relaxed">
-                    Ingresa el link de tu Web, Instagram, Facebook o LinkedIn. La IA diagnostica tu marca, genera tu FODA, Paleta de Colores, Objetivos y diseña tu <strong>Funnel de Contenidos</strong> en minutos.
+                    Ingresa el link de tu Web, Instagram, Facebook o LinkedIn. La IA lee la marca, te muestra qué entendió para que la confirmes o ajustes, y luego arma el FODA, la Paleta, los KPIs y tu <strong>Funnel de Contenidos</strong> según la etapa que elijas.
                 </p>
 
                 <!-- Interactive Form Card -->
                 <div id="generador" class="glass-card-neon rounded-2xl p-6 sm:p-8 max-w-3xl mx-auto text-left shadow-2xl relative">
-                    <form id="briefForm" class="space-y-6" onsubmit="event.preventDefault(); generateBrief();">
-                        
-                        <!-- Universal Link Input -->
+                    <div class="flex items-center gap-2 font-mono text-[11px] mb-6" id="stepBar">
+                        <span data-step="1" class="step-dot px-3 py-1 rounded-full border">1 · Enlace</span>
+                        <span class="text-slate-600">—</span>
+                        <span data-step="2" class="step-dot px-3 py-1 rounded-full border">2 · Confirmar marca</span>
+                        <span class="text-slate-600">—</span>
+                        <span data-step="3" class="step-dot px-3 py-1 rounded-full border">3 · Brief</span>
+                    </div>
+
+                    <!-- PASO 1 -->
+                    <form id="briefForm" class="space-y-6" onsubmit="event.preventDefault(); analyzeBrand();">
                         <div>
                             <label for="brandUrl" class="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
-                                Link o Enlace de tu Marca (Web, Instagram, Facebook, LinkedIn, TikTok, etc.)
+                                Link o Enlace de la Marca (Web, Instagram, Facebook, LinkedIn, TikTok, etc.)
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
@@ -159,57 +167,99 @@
                             </div>
                         </div>
 
-                        <!-- No Landing Page Checkbox Toggle -->
                         <div class="flex items-center justify-between p-4 bg-black/40 border border-brand-border rounded-xl">
                             <div class="flex items-center gap-3">
                                 <input type="checkbox" id="noLandingPage" class="w-4 h-4 rounded bg-black border-brand-border text-brand-neon focus:ring-brand-neon focus:ring-offset-black accent-brand-neon cursor-pointer">
                                 <div>
-                                    <label for="noLandingPage" class="text-sm font-semibold text-white cursor-pointer select-none">
-                                        No tengo Landing Page / Sitio Web aún
-                                    </label>
-                                    <p class="text-xs text-brand-muted">
-                                        El brief se adaptará para usarlo como guía en la construcción de tu primera landing page y para potenciar tus redes sociales.
-                                    </p>
+                                    <label for="noLandingPage" class="text-sm font-semibold text-white cursor-pointer select-none">No tengo Landing Page / Sitio Web aún</label>
+                                    <p class="text-xs text-brand-muted">El brief incluirá recomendaciones técnicas para diseñar tu primera landing y potenciar tus redes.</p>
                                 </div>
                             </div>
-                            <span class="text-xs bg-brand-neon/10 text-brand-neon font-mono px-2.5 py-1 rounded-full border border-brand-neon/30 hidden sm:inline-block">
-                                Estrategia Base
-                            </span>
+                            <span class="text-xs bg-brand-neon/10 text-brand-neon font-mono px-2.5 py-1 rounded-full border border-brand-neon/30 hidden sm:inline-block">Estrategia Base</span>
                         </div>
 
-                        <!-- Campaign Types Select -->
                         <div>
-                            <label class="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">
-                                Tipo de Campaña / Objetivo Principal
-                            </label>
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="campaignSelector">
-                                <button type="button" onclick="selectCampaign(this, 'CyberDay / Sale')" class="campaign-btn active bg-brand-neon/20 border-brand-neon text-brand-neon border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="shopping-bag" class="w-4 h-4"></i> CyberDay / Ventas
+                            <label class="block text-xs font-mono uppercase tracking-wider text-slate-300 mb-2">Campaña según etapa del embudo</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5" id="campaignSelector">
+                                <button type="button" onclick="selectCampaign(this,'TOFU')" class="campaign-btn bg-brand-neon/20 border-brand-neon text-brand-neon border rounded-xl py-3 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="megaphone" class="w-4 h-4 shrink-0"></i> 1. Atracción (TOFU - Parte alta)
                                 </button>
-                                <button type="button" onclick="selectCampaign(this, 'Lanzamiento de Producto')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="rocket" class="w-4 h-4"></i> Lanzamiento
+                                <button type="button" onclick="selectCampaign(this,'MOFU')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-3 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="messages-square" class="w-4 h-4 shrink-0"></i> 2. Consideración (MOFU - Parte media)
                                 </button>
-                                <button type="button" onclick="selectCampaign(this, 'Estrategia de Redes Sociales')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="instagram" class="w-4 h-4"></i> Redes & Contenido
-                                </button>
-                                <button type="button" onclick="selectCampaign(this, 'Performance & Captación')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="target" class="w-4 h-4"></i> Performance / Leads
-                                </button>
-                                <button type="button" onclick="selectCampaign(this, 'Posicionamiento de Marca')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="award" class="w-4 h-4"></i> Branding
-                                </button>
-                                <button type="button" onclick="selectCampaign(this, 'Black Friday / Oferta')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
-                                    <i data-lucide="zap" class="w-4 h-4"></i> Oferta Especial
+                                <button type="button" onclick="selectCampaign(this,'BOFU')" class="campaign-btn bg-black/50 border-brand-border hover:border-slate-600 text-slate-300 border rounded-xl py-3 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                                    <i data-lucide="badge-check" class="w-4 h-4 shrink-0"></i> 3. Decisión y Cierre (BOFU - Parte baja)
                                 </button>
                             </div>
                         </div>
 
-                        <!-- CTA Generate Button -->
+                        <details class="p-4 bg-black/40 border border-brand-border rounded-xl" id="apiSettings">
+                            <summary class="text-xs font-mono uppercase tracking-wider text-slate-300 cursor-pointer select-none flex items-center gap-2">
+                                <i data-lucide="key-round" class="w-4 h-4 text-brand-neon"></i> Conexión IA (Gemini) <span id="keyStatus" class="text-amber-400 normal-case"></span>
+                            </summary>
+                            <div class="mt-4 grid sm:grid-cols-3 gap-3">
+                                <div class="sm:col-span-2">
+                                    <label class="text-[11px] text-brand-muted block mb-1">API Key de Google AI Studio</label>
+                                    <input type="password" id="apiKey" autocomplete="off" placeholder="AIza..." class="w-full px-3 py-2.5 bg-black/60 border border-brand-border rounded-lg text-white font-mono text-xs focus:outline-none focus:border-brand-neon">
+                                </div>
+                                <div>
+                                    <label class="text-[11px] text-brand-muted block mb-1">Modelo</label>
+                                    <input type="text" id="apiModel" value="gemini-2.5-flash" class="w-full px-3 py-2.5 bg-black/60 border border-brand-border rounded-lg text-white font-mono text-xs focus:outline-none focus:border-brand-neon">
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-brand-muted mt-3 leading-relaxed">La clave se guarda solo en este navegador. Si publicas esta página para otras personas, no dejes la clave en el código: usa un backend/proxy que la esconda.</p>
+                        </details>
+
                         <button type="submit" id="generateBtn" class="w-full py-4 bg-brand-neon hover:bg-brand-neonHover text-black font-bold rounded-xl transition-all shadow-neon hover:shadow-neon-lg flex items-center justify-center gap-3 text-base">
-                            <i data-lucide="sparkles" class="w-5 h-5"></i>
-                            <span>Generar Brief Estratégico Completo</span>
+                            <i data-lucide="scan-search" class="w-5 h-5"></i>
+                            <span>Analizar marca</span>
                         </button>
                     </form>
+
+                    <!-- PASO 2: CONFIRMACIÓN -->
+                    <div id="confirmCard" class="hidden space-y-5">
+                        <div class="flex items-center justify-between gap-3 flex-wrap">
+                            <span class="text-brand-neon font-mono text-xs uppercase tracking-widest">Informe de la marca</span>
+                            <span id="confBadge" class="text-[11px] font-mono px-2.5 py-1 rounded-full border"></span>
+                        </div>
+
+                        <p id="confSentence" class="text-lg sm:text-xl text-white leading-snug"></p>
+
+                        <div id="confReport" class="space-y-3 text-xs sm:text-sm text-slate-300"></div>
+
+                        <div class="border-t border-brand-border pt-5 space-y-3">
+                            <p class="text-xs font-mono uppercase tracking-wider text-slate-300">¿Algo no calza? Ajústalo antes de generar el brief</p>
+                            <div class="grid sm:grid-cols-3 gap-3">
+                                <div class="sm:col-span-2">
+                                    <label class="text-[11px] text-brand-muted block mb-1">Nombre de la marca</label>
+                                    <input id="editName" oninput="updateSentence()" class="w-full px-3 py-2.5 bg-black/60 border border-brand-border rounded-lg text-white text-sm focus:outline-none focus:border-brand-neon">
+                                </div>
+                                <div>
+                                    <label class="text-[11px] text-brand-muted block mb-1">Tipo</label>
+                                    <select id="editType" onchange="updateSentence()" class="w-full px-3 py-2.5 bg-black/60 border border-brand-border rounded-lg text-white text-sm focus:outline-none focus:border-brand-neon">
+                                        <option value="pyme">Pyme</option>
+                                        <option value="empresa">Empresa</option>
+                                        <option value="emprendimiento">Emprendimiento</option>
+                                        <option value="pagina">Página / Perfil</option>
+                                        <option value="profesional">Profesional independiente</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[11px] text-brand-muted block mb-1">Qué hace (puedes corregir o agregar detalle)</label>
+                                <textarea id="editDesc" rows="3" oninput="updateSentence()" class="w-full px-3 py-2.5 bg-black/60 border border-brand-border rounded-lg text-white text-sm focus:outline-none focus:border-brand-neon"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button type="button" id="confirmBtn" onclick="confirmAndGenerate()" class="flex-1 py-3.5 bg-brand-neon hover:bg-brand-neonHover text-black font-bold rounded-xl transition-all shadow-neon flex items-center justify-center gap-2 text-sm">
+                                <i data-lucide="check" class="w-5 h-5"></i><span>Sí, es correcto · Generar brief</span>
+                            </button>
+                            <button type="button" onclick="backToStep1()" class="py-3.5 px-5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold rounded-xl transition-all flex items-center justify-center gap-2 text-sm">
+                                <i data-lucide="undo-2" class="w-4 h-4"></i><span>Es otra marca / volver</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -262,7 +312,7 @@
                         </div>
                         <h3 class="text-xl font-bold text-white mb-3">Extracción Multi-canal</h3>
                         <p class="text-brand-muted text-sm leading-relaxed">
-                            Acepta sitios web o perfiles de Instagram, Facebook y LinkedIn. Extrae el ADN visual, tono de voz y estado de tu presencia digital.
+                            Acepta sitios web o perfiles sociales. La IA lee la URL y busca información pública, y te muestra un informe con el nivel de confianza para que confirmes que es la marca correcta.
                         </p>
                     </div>
 
@@ -284,7 +334,7 @@
                         </div>
                         <h3 class="text-xl font-bold text-white mb-3">Funnel Inbound & Exportación</h3>
                         <p class="text-brand-muted text-sm leading-relaxed">
-                            Construye el embudo de contenidos en 4 fases (Atracción, Interacción, Conversión, Fidelización) y lo entrega en PDF o Markdown.
+                            Construye el brief enfocado en Atracción (TOFU), Consideración (MOFU) o Decisión y Cierre (BOFU), con el funnel completo, y lo entrega en PDF o Markdown.
                         </p>
                     </div>
                 </div>
@@ -345,6 +395,16 @@
                 </div>
 
                 <div class="space-y-4" id="faqAccordion">
+                    <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-base hover:text-brand-neon transition-colors">
+                            <span>¿Puede la IA leer cualquier perfil de Instagram?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300"></i>
+                        </button>
+                        <div class="px-6 pb-5 text-brand-muted text-sm leading-relaxed hidden">
+                            No siempre. Instagram y otras redes suelen bloquear la lectura directa, así que la IA complementa con búsqueda web pública. Por eso existe el paso de confirmación: verás el nivel de confianza, lo que se pudo verificar y podrás corregir la descripción antes de generar el brief.
+                        </div>
+                    </div>
+
                     
                     <div class="glass-card rounded-xl border border-brand-border overflow-hidden">
                         <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left flex justify-between items-center text-white font-semibold text-base hover:text-brand-neon transition-colors">
@@ -412,365 +472,305 @@
     </footer>
 
     <script>
-        let selectedCampaign = 'CyberDay / Sale';
+        const STAGES = {
+            TOFU: { label: 'Atracción (TOFU - Parte alta)', key: 'atraccion', goal: 'Que personas que no conocen la marca la descubran: alcance, visibilidad y primeras interacciones.' },
+            MOFU: { label: 'Consideración (MOFU - Parte media)', key: 'interaccion', goal: 'Que quienes ya conocen la marca la evalúen: autoridad, confianza, comparación con alternativas y captación de leads.' },
+            BOFU: { label: 'Decisión y Cierre (BOFU - Parte baja)', key: 'conversion', goal: 'Que quienes ya consideran comprar decidan: ofertas, prueba social, eliminación de objeciones y cierre de venta.' }
+        };
+        const TYPE_LABEL = { pyme: 'una pyme', empresa: 'una empresa', emprendimiento: 'un emprendimiento', pagina: 'una página', profesional: 'un profesional independiente' };
+        let selectedCampaign = 'TOFU', analysis = null, lastBrief = null, lastCtx = null, lastSources = [];
 
-        // Initialize Lucide icons on page load
+        const $ = id => document.getElementById(id);
+        const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const arr = a => Array.isArray(a) ? a : (a ? [a] : []);
+
         document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
+            try { $('apiKey').value = localStorage.getItem('brief_gemini_key') || ''; $('apiModel').value = localStorage.getItem('brief_gemini_model') || 'gemini-2.5-flash'; } catch (e) {}
+            refreshKeyStatus(); $('apiKey').addEventListener('input', refreshKeyStatus);
+            setStep(1); lucide.createIcons();
         });
 
-        // Campaign selection logic
-        function selectCampaign(button, campaignType) {
+        function refreshKeyStatus() { $('keyStatus').textContent = $('apiKey').value.trim() ? '' : '· falta la API Key'; }
+
+        function setStep(n) {
+            document.querySelectorAll('.step-dot').forEach(d => {
+                const on = +d.dataset.step === n, done = +d.dataset.step < n;
+                d.className = 'step-dot px-3 py-1 rounded-full border ' + (on ? 'bg-brand-neon/20 border-brand-neon text-brand-neon' : done ? 'border-brand-neon/40 text-brand-neon/70' : 'border-brand-border text-slate-500');
+            });
+        }
+
+        function selectCampaign(button, code) {
             document.querySelectorAll('.campaign-btn').forEach(btn => {
                 btn.classList.remove('bg-brand-neon/20', 'border-brand-neon', 'text-brand-neon');
                 btn.classList.add('bg-black/50', 'border-brand-border', 'text-slate-300');
             });
             button.classList.remove('bg-black/50', 'border-brand-border', 'text-slate-300');
             button.classList.add('bg-brand-neon/20', 'border-brand-neon', 'text-brand-neon');
-            selectedCampaign = campaignType;
+            selectedCampaign = code;
         }
 
-        function generateBrief() {
-            const urlInput = document.getElementById('brandUrl').value.trim();
-            const noLanding = document.getElementById('noLandingPage').checked;
-
-            if (!urlInput) return;
-
-            const btn = document.getElementById('generateBtn');
-            const previewSection = document.getElementById('previewSection');
-            const output = document.getElementById('briefOutputContent');
-
-            // Button loading state
-            btn.disabled = true;
-            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i><span>Analizando ${urlInput}...</span>`;
+        function setBtn(btn, icon, text, busy) {
+            btn.disabled = busy;
+            btn.innerHTML = `<i data-lucide="${busy ? 'loader-2' : icon}" class="w-5 h-5 ${busy ? 'animate-spin' : ''}"></i><span>${text}</span>`;
             lucide.createIcons();
+        }
 
-            setTimeout(() => {
-                btn.disabled = false;
-                btn.innerHTML = `<i data-lucide="sparkles" class="w-5 h-5"></i><span>Generar Brief Estratégico Completo</span>`;
-                lucide.createIcons();
-
-                // Clean domain/brand name for display
-                let cleanBrand = urlInput.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
-                if (cleanBrand.includes('instagram.com/')) {
-                    cleanBrand = '@' + cleanBrand.split('instagram.com/')[1].replace(/\//g, '');
-                } else if (cleanBrand.includes('facebook.com/')) {
-                    cleanBrand = 'FB / ' + cleanBrand.split('facebook.com/')[1].replace(/\//g, '');
-                } else if (cleanBrand.includes('linkedin.com/')) {
-                    cleanBrand = 'LinkedIn / ' + cleanBrand.split('linkedin.com/')[1].replace(/\//g, '');
-                } else {
-                    cleanBrand = cleanBrand.toUpperCase();
+        /* ---------- Conexión a Gemini ---------- */
+        async function callGemini(prompt, toolSets) {
+            const key = $('apiKey').value.trim(), model = $('apiModel').value.trim() || 'gemini-2.5-flash';
+            if (!key) { $('apiSettings').open = true; throw new Error('Falta la API Key de Gemini. Pégala en "Conexión IA".'); }
+            try { localStorage.setItem('brief_gemini_key', key); localStorage.setItem('brief_gemini_model', model); } catch (e) {}
+            let lastErr;
+            for (const tools of toolSets) {
+                const body = { contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.3, maxOutputTokens: 16384 } };
+                if (tools.length) body.tools = tools;
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key }, body: JSON.stringify(body)
+                });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok) {
+                    const cand = data.candidates?.[0];
+                    const text = (cand?.content?.parts || []).map(p => p.text || '').join('');
+                    if (!text) { lastErr = new Error('La IA no devolvió contenido. Intenta de nuevo.'); continue; }
+                    const chunks = cand?.groundingMetadata?.groundingChunks || [];
+                    return { text, sources: chunks.map(c => c.web).filter(Boolean) };
                 }
+                lastErr = new Error(data.error?.message || `Error ${res.status}`);
+                if (res.status === 400 && /tool|url_context|search/i.test(lastErr.message)) continue; // prueba con menos herramientas
+                if (res.status === 400 || res.status === 403 || res.status === 401) throw lastErr;
+            }
+            throw lastErr || new Error('No se pudo conectar con la IA.');
+        }
 
-                output.innerHTML = `
-                    <!-- Header Brief Title -->
-                    <div class="border-b border-brand-border pb-6 mb-6 flex flex-wrap justify-between items-center gap-4">
-                        <div>
-                            <span class="text-brand-neon font-mono font-bold text-xs uppercase tracking-widest">DOC_REF: BRIEF-${Math.floor(1000 + Math.random() * 9000)}</span>
-                            <h3 class="text-2xl font-extrabold text-white tracking-tight mt-1">BRIEF ESTRATÉGICO & PLAN DE CONTENIDOS</h3>
-                        </div>
-                        <div class="flex items-center gap-2 font-mono text-xs">
-                            <span class="bg-black/80 border border-brand-border px-3 py-1.5 rounded-lg text-slate-300">MARCA: <strong class="text-brand-neon">${cleanBrand}</strong></span>
-                            <span class="bg-black/80 border border-brand-border px-3 py-1.5 rounded-lg text-slate-300">TIPO: <strong class="text-white">${selectedCampaign}</strong></span>
-                        </div>
+        function parseJSON(text) {
+            const s = text.indexOf('{'), e = text.lastIndexOf('}');
+            if (s < 0 || e < 0) throw new Error('La IA no devolvió un formato válido. Intenta de nuevo.');
+            return JSON.parse(text.slice(s, e + 1));
+        }
+
+        /* ---------- PASO 1 → 2: Analizar la marca ---------- */
+        async function analyzeBrand() {
+            const url = $('brandUrl').value.trim(); if (!url) return;
+            const btn = $('generateBtn');
+            setBtn(btn, 'scan-search', 'Leyendo y analizando la marca...', true);
+            const prompt = `Eres un analista de marketing y research. Debes identificar QUÉ es y QUÉ HACE la marca cuyo enlace es: ${url}
+Usa tus herramientas para LEER esa URL directamente y complementar con búsqueda web pública. Reglas estrictas:
+- No inventes datos. Si no pudiste leer la URL (p. ej. Instagram/Facebook piden login) o no pudiste verificar algo, dilo en "notas_verificacion" y baja la "confianza".
+- Distingue lo observado de lo inferido.
+- Si hay otras marcas con nombre parecido que podrían confundirse con esta, indícalo en "posibles_homonimos".
+- Responde en español, SOLO con un objeto JSON válido (sin markdown) con esta forma:
+{"nombre":"nombre oficial tal como aparece en la fuente","tipo":"pyme|empresa|emprendimiento|pagina|profesional","que_hace":"una frase clara, máx. 30 palabras","resumen":"informe de 3 a 5 frases sobre la marca","identificadores":["datos observados en la URL indicada: handle, dominio, título, bio, ubicación"],"productos_servicios":["..."],"publico_aparente":"...","ubicacion_mercado":"...","tono_observado":"...","canales_detectados":["..."],"hallazgos":["datos concretos verificados: precios, promos, frecuencia de publicación, etc."],"posibles_homonimos":"texto o cadena vacía","confianza":"alta|media|baja","notas_verificacion":"qué se leyó directo, qué no y qué es inferencia"}`;
+            try {
+                const r = await callGemini(prompt, [[{ url_context: {} }, { google_search: {} }], [{ google_search: {} }], []]);
+                analysis = parseJSON(r.text); lastSources = r.sources;
+                renderConfirm(url);
+            } catch (err) {
+                console.error(err); showToast('Error: ' + err.message, true);
+            }
+            setBtn(btn, 'scan-search', 'Analizar marca', false);
+        }
+
+        function renderConfirm(url) {
+            const a = analysis;
+            $('editName').value = a.nombre || '';
+            $('editType').value = TYPE_LABEL[a.tipo] ? a.tipo : 'pyme';
+            $('editDesc').value = a.que_hace || '';
+            const conf = (a.confianza || 'baja').toLowerCase();
+            const cls = { alta: 'text-brand-neon border-brand-neon/40 bg-brand-neon/10', media: 'text-amber-400 border-amber-400/40 bg-amber-400/10', baja: 'text-rose-400 border-rose-400/40 bg-rose-400/10' }[conf] || 'text-rose-400 border-rose-400/40';
+            $('confBadge').className = 'text-[11px] font-mono px-2.5 py-1 rounded-full border ' + cls;
+            $('confBadge').textContent = 'Confianza de lectura: ' + conf.toUpperCase();
+            const row = (l, v) => v && (!Array.isArray(v) || v.length) ? `<p><strong class="text-white">${l}:</strong> ${Array.isArray(v) ? v.map(esc).join(' · ') : esc(v)}</p>` : '';
+            const warn = conf !== 'alta' ? `<div class="p-3 rounded-lg border border-amber-400/40 bg-amber-400/10 text-amber-300 text-xs">⚠️ La IA no pudo verificar todo con certeza. Revisa el informe y corrige la descripción antes de continuar.</div>` : '';
+            const homo = a.posibles_homonimos ? `<div class="p-3 rounded-lg border border-rose-400/40 bg-rose-400/10 text-rose-300 text-xs">🔎 Posible confusión con otras marcas: ${esc(a.posibles_homonimos)}</div>` : '';
+            const src = lastSources.length ? `<p><strong class="text-white">Fuentes consultadas:</strong> ${lastSources.slice(0, 5).map(s => `<a href="${esc(s.uri)}" target="_blank" rel="noopener" class="text-brand-neon underline">${esc(s.title || s.uri)}</a>`).join(' · ')}</p>` : '';
+            $('confReport').innerHTML = `${warn}${homo}
+                <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
+                    <p><strong class="text-white">URL ingresada:</strong> <span class="font-mono text-xs">${esc(url)}</span></p>
+                    ${row('Resumen', a.resumen)}${row('Datos observados en la URL', arr(a.identificadores))}${row('Productos / servicios', arr(a.productos_servicios))}
+                    ${row('Público aparente', a.publico_aparente)}${row('Ubicación / mercado', a.ubicacion_mercado)}${row('Tono observado', a.tono_observado)}
+                    ${row('Canales detectados', arr(a.canales_detectados))}${row('Hallazgos', arr(a.hallazgos))}
+                    ${row('Notas de verificación', a.notas_verificacion)}${src}
+                </div>`;
+            updateSentence();
+            $('briefForm').classList.add('hidden'); $('confirmCard').classList.remove('hidden');
+            setStep(2); lucide.createIcons();
+        }
+
+        function updateSentence() {
+            const n = $('editName').value.trim() || '[nombre]', t = TYPE_LABEL[$('editType').value], d = $('editDesc').value.trim() || '[lo que hace]';
+            $('confSentence').innerHTML = `Hemos identificado que <strong class="text-brand-neon">${esc(n)}</strong> es ${t} enfocado en <strong class="text-brand-neon">${esc(d)}</strong>. <span class="text-slate-300">¿Es correcto?</span>`;
+        }
+
+        function backToStep1() {
+            $('confirmCard').classList.add('hidden'); $('briefForm').classList.remove('hidden'); setStep(1);
+        }
+
+        /* ---------- PASO 2 → 3: Generar brief ---------- */
+        async function confirmAndGenerate() {
+            const btn = $('confirmBtn'), noLanding = $('noLandingPage').checked, url = $('brandUrl').value.trim();
+            const profile = { ...analysis, nombre: $('editName').value.trim(), tipo: $('editType').value, que_hace: $('editDesc').value.trim() };
+            const st = STAGES[selectedCampaign];
+            lastCtx = { url, noLanding, stage: selectedCampaign, profile };
+            setBtn(btn, 'check', 'Construyendo el brief...', true);
+            const prompt = `Eres un estratega senior de marketing digital e inbound. Redacta un BRIEF ESTRATÉGICO en español para trabajar con esta marca.
+PERFIL CONFIRMADO POR EL USUARIO (fuente de verdad; si contradice tus suposiciones, gana el perfil):
+${JSON.stringify(profile)}
+URL de origen: ${url}
+Etapa del embudo de esta campaña: ${st.label}. Objetivo de la etapa: ${st.goal}
+¿La marca tiene landing page/sitio web?: ${noLanding ? 'NO. Llena "landing_plan" con recomendaciones técnicas para diseñar su primera landing.' : 'SÍ. "landing_plan" debe ser null.'}
+Reglas: no inventes datos duros de la marca (año de fundación, ventas, cifras, clientes). Si un dato no está en el perfil, escribe "Por confirmar con el cliente". Metas, presupuesto y KPIs son PROPUESTAS referenciales. Todo el brief debe estar enfocado en la etapa indicada. Usa búsqueda web solo para competencia y contexto de mercado; nombra competidores reales solo si los encontraste. En "paleta", si no viste los colores reales de la marca, marca "paleta_origen":"sugerida".
+Responde SOLO con un objeto JSON válido (sin markdown) con esta forma exacta:
+{"adn":{"descripcion":"","historia_mision":"","propuesta_valor":""},
+"infraestructura":{"diagnostico":"","recomendaciones":[""]},
+"landing_plan":{"secciones":["sección y su propósito"],"recomendaciones_tecnicas":[""]} o null,
+"foda":{"fortalezas":[""],"oportunidades":[""],"debilidades":[""],"amenazas":[""]},
+"competencia":{"competidores":[""],"ventaja_unica":""},
+"buyer_persona":{"nombre":"","edad":"","perfil":"","dolores":[""],"motivaciones":[""]},
+"paleta_origen":"observada|sugerida","paleta":[{"nombre":"","hex":"#RRGGBB","uso":""}],"guia_estetica":"",
+"mensaje":{"clave":"","tono":"","ejemplos":[""]},
+"objetivos_kpis":[{"objetivo":"","kpi":"","meta":""}],
+"canales":[{"canal":"","rol":"","frecuencia":""}],
+"presupuesto":[{"item":"","porcentaje":"","detalle":""}],
+"calendario":{"semanas":[{"semana":"Semana 1","foco":"","entregables":[""]}],"flujo_trabajo":"cómo llevarlo en Notion/Trello: columnas, responsables, revisiones"},
+"estrategia_etapa":{"enfoque":"","acciones":[""],"ideas_contenido":["idea concreta de pieza"],"cta":"","metricas":[""]},
+"funnel":{"atraccion":{"formatos":[""],"temas":[""],"cta":""},"interaccion":{"formatos":[""],"temas":[""],"cta":""},"conversion":{"formatos":[""],"temas":[""],"cta":""},"fidelizacion":{"formatos":[""],"temas":[""],"cta":""},"ctas_transversales":[""],"flujo_notion_trello":""}}`;
+            try {
+                const r = await callGemini(prompt, [[{ google_search: {} }], []]);
+                lastBrief = parseJSON(r.text);
+                if (r.sources.length) lastSources = r.sources;
+                renderBrief();
+                setStep(3);
+            } catch (err) {
+                console.error(err); showToast('Error: ' + err.message, true);
+            }
+            setBtn(btn, 'check', 'Sí, es correcto · Generar brief', false);
+        }
+
+        /* ---------- Render del brief ---------- */
+        function renderBrief() {
+            const b = lastBrief, c = lastCtx, p = c.profile, st = STAGES[c.stage];
+            const ul = a => `<ul class="list-disc list-inside space-y-1 text-slate-300">${arr(a).map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+            const card = inner => `<div class="bg-black/50 p-4 sm:p-5 rounded-xl border border-brand-border space-y-2 text-xs sm:text-sm">${inner}</div>`;
+            const line = (l, t) => `<p class="text-slate-300"><strong class="text-white">${l}:</strong> ${esc(t)}</p>`;
+            const sec = (icon, t, inner) => `<div class="space-y-3 avoid-break"><div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase"><i data-lucide="${icon}" class="w-4 h-4"></i><span>${t}</span></div>${inner}</div>`;
+            const hex = h => /^#[0-9a-f]{6}$/i.test(h || '') ? h : '#444444';
+            const dark = h => { const n = parseInt(hex(h).slice(1), 16); return ((n >> 16) * 0.299 + ((n >> 8) & 255) * 0.587 + (n & 255) * 0.114) < 140; };
+            const stageCls = { atraccion: 'emerald', interaccion: 'blue', conversion: 'brand-neon', fidelizacion: 'purple' };
+            const fnames = { atraccion: '1. Atracción (TOFU)', interaccion: '2. Interacción (MOFU)', conversion: '3. Conversión / Decisión (BOFU)', fidelizacion: '4. Fidelización (Comunidad)' };
+            const fcol = { atraccion: 'text-emerald-400', interaccion: 'text-blue-400', conversion: 'text-brand-neon', fidelizacion: 'text-purple-400' };
+            const fu = b.funnel || {};
+            const funnelCards = Object.keys(fnames).map(k => {
+                const f = fu[k] || {}, focus = k === st.key;
+                return `<div class="bg-black/50 p-4 rounded-xl border ${focus ? 'border-brand-neon shadow-neon' : 'border-brand-border'} space-y-2 text-xs avoid-break">
+                    <div class="flex items-center justify-between font-bold font-mono"><span class="${fcol[k]}">${fnames[k]}</span>${focus ? '<span class="bg-brand-neon text-black px-2 py-0.5 rounded">ETAPA FOCO</span>' : ''}</div>
+                    <p class="text-slate-300"><strong class="text-white">Formatos:</strong> ${arr(f.formatos).map(esc).join(', ')}</p>
+                    <p class="text-slate-300"><strong class="text-white">Temas:</strong> ${arr(f.temas).map(esc).join(', ')}</p>
+                    <p class="text-slate-400 italic">CTA: ${esc(f.cta)}</p></div>`;
+            }).join('');
+            const noLandBlock = c.noLanding
+                ? `<div class="mt-8 p-5 bg-amber-500/10 border-2 border-amber-500/40 rounded-xl space-y-2 avoid-break"><div class="flex items-center gap-2 text-amber-400 font-bold font-mono text-xs uppercase"><i data-lucide="alert-triangle" class="w-4 h-4"></i><span>Nota estratégica final</span></div><p class="text-sm text-slate-200 leading-relaxed"><strong>La marca no cuenta con landing page. Este brief debe utilizarse como hoja de ruta para el diseño de su landing y la estructuración táctica de sus redes sociales.</strong></p></div>` : '';
+            const srcBlock = lastSources.length ? `<p class="text-[11px] text-slate-500 pt-4 border-t border-brand-border">Fuentes consultadas por la IA: ${lastSources.slice(0, 6).map(s => esc(s.title || s.uri)).join(' · ')}. El contenido debe validarse con el cliente antes de ejecutarse.</p>` : '';
+            let n = 0; const N = () => ++n + '.';
+
+            $('briefOutputContent').innerHTML = `
+                <div class="border-b border-brand-border pb-6 mb-2 flex flex-wrap justify-between items-center gap-4">
+                    <div>
+                        <span class="text-brand-neon font-mono font-bold text-xs uppercase tracking-widest">DOC_REF: BRIEF-${Math.floor(1000 + Math.random() * 9000)} · ${new Date().toLocaleDateString('es-CL')}</span>
+                        <h3 class="text-2xl font-extrabold text-white tracking-tight mt-1">BRIEF ESTRATÉGICO & PLAN DE CONTENIDOS</h3>
+                        <p class="text-xs text-slate-400 mt-1 font-mono">${esc(c.url)}</p>
                     </div>
-
-                    <!-- Module 1: Identidad, ADN, Historia & Contexto -->
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
-                            <i data-lucide="book-open" class="w-4 h-4"></i>
-                            <span>1. Introducción, ADN & Historia de la Marca</span>
-                        </div>
-                        <div class="bg-black/50 p-4 sm:p-5 rounded-xl border border-brand-border space-y-3">
-                            <p class="text-slate-300">
-                                <strong class="text-white">Descripción General:</strong> Proyecto estratégico de comunicación y marketing para <span class="text-brand-neon font-semibold">${cleanBrand}</span>. En el contexto actual del mercado, la marca requiere consolidar su propuesta de valor diferenciada para destacar ante audiencias altamente impactadas digitalmente.
-                            </p>
-                            <p class="text-slate-300">
-                                <strong class="text-white">Historia & Misión:</strong> Orientada a resolver necesidades específicas de sus clientes con un enfoque de calidad, agilidad e innovación constante.
-                            </p>
-                        </div>
+                    <div class="flex flex-col gap-2 font-mono text-xs">
+                        <span class="bg-black/80 border border-brand-border px-3 py-1.5 rounded-lg text-slate-300">MARCA: <strong class="text-brand-neon">${esc(p.nombre)}</strong></span>
+                        <span class="bg-black/80 border border-brand-border px-3 py-1.5 rounded-lg text-slate-300">CAMPAÑA: <strong class="text-white">${esc(st.label)}</strong></span>
                     </div>
+                </div>
+                ${sec('book-open', N() + ' ADN de Marca & Historia', card(line('Qué es y qué hace', `${p.nombre} es ${TYPE_LABEL[p.tipo]} enfocado en ${p.que_hace}`) + line('Descripción', b.adn?.descripcion) + line('Historia & misión', b.adn?.historia_mision) + line('Propuesta de valor', b.adn?.propuesta_valor)))}
+                ${sec('server', N() + ' Diagnóstico de Infraestructura Digital', card(line('Canal analizado', c.url) + `<p class="${c.noLanding ? 'text-amber-400' : 'text-brand-neon'} font-semibold">${c.noLanding ? '⚠️ La marca NO cuenta con landing page / sitio web.' : '✓ La marca cuenta con sitio web / landing para recibir tráfico.'}</p>` + line('Diagnóstico', b.infraestructura?.diagnostico) + ul(b.infraestructura?.recomendaciones)) +
+                    (c.noLanding && b.landing_plan ? card(`<strong class="text-amber-400 font-mono uppercase text-xs">Plan técnico para su primera landing</strong>` + ul(b.landing_plan.secciones) + `<strong class="text-white block pt-2">Recomendaciones técnicas</strong>` + ul(b.landing_plan.recomendaciones_tecnicas)) : ''))}
+                ${sec('layout-grid', N() + ' Análisis FODA', `<div class="grid sm:grid-cols-2 gap-3 text-xs">
+                    ${[['Fortalezas', 'emerald', 'fortalezas'], ['Oportunidades', 'blue', 'oportunidades'], ['Debilidades', 'amber', 'debilidades'], ['Amenazas', 'rose', 'amenazas']].map(([t, col, k]) => `<div class="bg-black/50 p-4 rounded-xl border border-brand-border"><strong class="text-${col}-400 block mb-1">${t}</strong>${ul(b.foda?.[k])}</div>`).join('')}</div>`)}
+                ${sec('shield-alert', N() + ' Análisis de Competencia & Ventaja Única', card(`<strong class="text-white">Competidores / referentes</strong>` + ul(b.competencia?.competidores) + line('Ventaja única (UVP)', b.competencia?.ventaja_unica)))}
+                ${sec('users', N() + ' Público Objetivo (Buyer Persona)', card(line('Persona', b.buyer_persona?.nombre) + line('Edad', b.buyer_persona?.edad) + line('Perfil', b.buyer_persona?.perfil) + `<strong class="text-white">Puntos de dolor</strong>` + ul(b.buyer_persona?.dolores) + `<strong class="text-white">Motivaciones</strong>` + ul(b.buyer_persona?.motivaciones)))}
+                ${sec('palette', N() + ' Paleta de Colores (HEX) & Guía Estética', card(`<p class="text-slate-400 text-[11px]">Paleta ${b.paleta_origen === 'observada' ? 'observada en la marca' : 'sugerida (no verificada en la marca)'}</p><div class="flex flex-wrap gap-3">${arr(b.paleta).map(x => `<div class="flex items-center gap-2 avoid-break"><span class="w-10 h-10 rounded-lg border border-slate-600 flex items-center justify-center text-[9px] font-mono ${dark(x.hex) ? 'text-white' : 'text-black'}" style="background:${hex(x.hex)}">${esc(hex(x.hex))}</span><span class="text-slate-300 text-xs"><strong class="text-white">${esc(x.nombre)}</strong><br>${esc(x.uso)}</span></div>`).join('')}</div>` + line('Guía estética', b.guia_estetica)))}
+                ${sec('message-square-quote', N() + ' Mensaje Clave & Tono de Voz', card(line('Mensaje clave', b.mensaje?.clave) + line('Tono de voz', b.mensaje?.tono) + ul(b.mensaje?.ejemplos)))}
+                ${sec('target', N() + ' Objetivos & KPIs', card(arr(b.objetivos_kpis).map(o => `<p class="text-slate-300">• <strong class="text-white">${esc(o.objetivo)}</strong> — KPI: ${esc(o.kpi)} — Meta referencial: ${esc(o.meta)}</p>`).join('')))}
+                ${sec('radio-tower', N() + ' Canales de Difusión & Matriz de Medios', card(arr(b.canales).map(x => `<p class="text-slate-300">• <strong class="text-white">${esc(x.canal)}</strong> — ${esc(x.rol)} (${esc(x.frecuencia)})</p>`).join('')))}
+                ${sec('wallet', N() + ' Presupuesto & Distribución (referencial)', card(arr(b.presupuesto).map(x => `<p class="text-slate-300">• <strong class="text-white">${esc(x.item)}: ${esc(x.porcentaje)}</strong> — ${esc(x.detalle)}</p>`).join('')))}
+                ${sec('calendar-days', N() + ' Calendario, Timing & Flujo de Trabajo (Notion / Trello)', card(arr(b.calendario?.semanas).map(w => `<p class="text-slate-300"><strong class="text-white">${esc(w.semana)} — ${esc(w.foco)}:</strong> ${arr(w.entregables).map(esc).join('; ')}</p>`).join('') + line('Flujo de trabajo', b.calendario?.flujo_trabajo)))}
+                ${sec('crosshair', N() + ' Estrategia de la Etapa Foco: ' + esc(st.label), card(line('Enfoque', b.estrategia_etapa?.enfoque) + `<strong class="text-white">Acciones</strong>` + ul(b.estrategia_etapa?.acciones) + `<strong class="text-white">Ideas de contenido</strong>` + ul(b.estrategia_etapa?.ideas_contenido) + line('CTA principal', b.estrategia_etapa?.cta) + line('Métricas de la etapa', arr(b.estrategia_etapa?.metricas).join(', '))))}
+                ${sec('filter', N() + ' Funnel de Contenidos Inbound', `<div class="grid md:grid-cols-2 gap-4">${funnelCards}</div>` + card(`<strong class="text-brand-neon font-mono uppercase text-xs">Elementos transversales</strong>` + ul(b.funnel?.ctas_transversales) + line('Flujo Notion / Trello', b.funnel?.flujo_notion_trello)))}
+                ${noLandBlock}${srcBlock}`;
+            const ps = $('previewSection'); ps.classList.remove('hidden'); lucide.createIcons(); ps.scrollIntoView({ behavior: 'smooth' });
+        }
 
-                    <!-- Module 2: Diagnóstico e Infraestructura Digital -->
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
-                            <i data-lucide="server" class="w-4 h-4"></i>
-                            <span>2. Estado de Infraestructura Digital</span>
-                        </div>
-                        <div class="bg-black/50 p-4 sm:p-5 rounded-xl border border-brand-border space-y-2">
-                            <p class="text-slate-300">
-                                <strong class="text-white">Canal de Origen Analizado:</strong> ${urlInput}
-                            </p>
-                            <p class="text-slate-300">
-                                <strong class="text-white">Diagnóstico de Sitio Web / Landing Page:</strong> 
-                                ${noLanding 
-                                    ? `<span class="text-amber-400 font-semibold">⚠️ La marca actualmente NO cuenta con una Landing Page o sitio web activo.</span>` 
-                                    : `<span class="text-brand-neon font-semibold">✓ La marca cuenta con sitio web / landing activa para la recepción de tráfico.</span>`}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Module 3: FODA & Competencia -->
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <!-- FODA -->
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
-                                <i data-lucide="layout-grid" class="w-4 h-4"></i>
-                                <span>3. Análisis FODA</span>
-                            </div>
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2 text-xs">
-                                <p><strong class="text-emerald-400">Fortalezas:</strong> Propuesta ágil, mensaje directo, adaptación veloz a redes.</p>
-                                <p><strong class="text-blue-400">Oportunidades:</strong> Captación de nuevos segmentos mediante formatos de video corto (Reels/TikTok) y pauta focalizada.</p>
-                                <p><strong class="text-amber-400">Debilidades:</strong> Necesidad de estandarizar la captura de datos y nutrición de prospectos.</p>
-                                <p><strong class="text-rose-400">Amenazas:</strong> Saturación publicitaria del sector y alza de costos por clic en canales tradicionales.</p>
-                            </div>
-                        </div>
-
-                        <!-- Competencia -->
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
-                                <i data-lucide="shield-alert" class="w-4 h-4"></i>
-                                <span>4. Competencia & Ventaja Unica</span>
-                            </div>
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2 text-xs">
-                                <p><strong class="text-white">Entorno Competitivo:</strong> Marcas tradicionales con procesos lentos de atención.</p>
-                                <p><strong class="text-brand-neon font-bold">Ventaja Única de Valor (UVP):</strong> Atención directa, transparencia, propuesta clara y respuesta en tiempo récord.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 4: Buyer Persona, Paleta de Colores & Mensaje Clave -->
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <!-- Buyer Persona -->
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
-                                <i data-lucide="users" class="w-4 h-4"></i>
-                                <span>5. Público Objetivo (Target)</span>
-                            </div>
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2 text-xs">
-                                <p><strong class="text-white">Rango Etario:</strong> 24 - 45 años.</p>
-                                <p><strong class="text-white">Perfil:</strong> Profesionales, compradores digitales y tomadores de decisión activos en redes.</p>
-                                <p><strong class="text-white">Puntos de Dolor:</strong> Falta de claridad en precios, procesos burocráticos, desconfianza en ofertas opacas.</p>
-                            </div>
-                        </div>
-
-                        <!-- Paleta de Colores & Tono -->
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
-                                <i data-lucide="palette" class="w-4 h-4"></i>
-                                <span>6. Paleta de Colores & Tono de Voz</span>
-                            </div>
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-3 text-xs">
-                                <div>
-                                    <strong class="text-white block mb-1.5">Paleta Visual Recomendada:</strong>
-                                    <div class="flex items-center gap-2 font-mono">
-                                        <span class="w-6 h-6 rounded bg-[#080808] border border-slate-700 flex items-center justify-center text-[9px] text-white" title="#080808">#08</span>
-                                        <span class="w-6 h-6 rounded bg-[#00ff41] flex items-center justify-center text-[9px] text-black font-bold" title="#00ff41">#00</span>
-                                        <span class="w-6 h-6 rounded bg-[#1e293b] flex items-center justify-center text-[9px] text-white" title="#1e293b">#1e</span>
-                                        <span class="w-6 h-6 rounded bg-[#ffffff] flex items-center justify-center text-[9px] text-black font-bold" title="#ffffff">#ff</span>
-                                    </div>
-                                </div>
-                                <p><strong class="text-white">Tono de Voz:</strong> Cercano, directo, confiable, seguro y enfocado a soluciones prácticas.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 5: Objetivos, KPIs, Canales & Presupuesto -->
-                    <div class="border-t border-brand-border pt-6 space-y-4">
-                        <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
-                            <i data-lucide="target" class="w-4 h-4"></i>
-                            <span>7. Objetivos, KPIs, Canales & Presupuesto</span>
-                        </div>
-                        <div class="grid md:grid-cols-3 gap-4 text-xs">
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
-                                <h4 class="text-white font-bold uppercase font-mono text-brand-neon">Objetivos & KPIs</h4>
-                                <ul class="list-disc list-inside space-y-1 text-slate-300">
-                                    <li>Incremento de conversión: +25%</li>
-                                    <li>Costo por Lead (CPL) optimizado</li>
-                                    <li>ROAS proyectado: > 3.5x</li>
-                                </ul>
-                            </div>
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
-                                <h4 class="text-white font-bold uppercase font-mono text-brand-neon">Canales de Difusión</h4>
-                                <ul class="list-disc list-inside space-y-1 text-slate-300">
-                                    <li>Meta Ads (Instagram / Facebook)</li>
-                                    <li>Google Search & Performance Max</li>
-                                    <li>Email Marketing (Nutrición)</li>
-                                </ul>
-                            </div>
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
-                                <h4 class="text-white font-bold uppercase font-mono text-brand-neon">Presupuesto & Timing</h4>
-                                <p><strong class="text-white">Inversión Pauta:</strong> 70% Meta / 30% Google</p>
-                                <p><strong class="text-white">Plazo de Ejecución:</strong> 30 días con revisiones semanales.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 6: Funnel de Contenido Inbound (4 Etapas) -->
-                    <div class="border-t border-brand-border pt-6 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2 text-brand-neon font-mono font-bold text-sm uppercase">
-                                <i data-lucide="filter" class="w-4 h-4"></i>
-                                <span>8. Funnel de Ventas para el Contenido (Inbound Funnel)</span>
-                            </div>
-                            <span class="text-[10px] font-mono bg-brand-neon/10 text-brand-neon border border-brand-neon/30 px-2 py-0.5 rounded">Estrategia Inbound</span>
-                        </div>
-
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <!-- Etapa 1: Atracción -->
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
-                                <div class="flex items-center justify-between text-xs font-bold font-mono">
-                                    <span class="text-emerald-400">1. Atracción (Descubrimiento / TOFU)</span>
-                                    <span class="bg-emerald-400/10 text-emerald-400 px-2 py-0.5 rounded">Alcance Alto</span>
-                                </div>
-                                <p class="text-xs text-slate-300"><strong class="text-white">Formatos:</strong> Videos cortos, Reels, TikToks, infografías rápidas.</p>
-                                <p class="text-xs text-slate-300"><strong class="text-white">Temas:</strong> Respuestas directas a dolores comunes y preguntas frecuentes sin vender de forma agresiva.</p>
-                                <p class="text-xs text-slate-400 italic">Propósito: Lograr que nuevas personas descubran la marca de forma orgánica o mediante anuncios de alcance.</p>
-                            </div>
-
-                            <!-- Etapa 2: Interacción -->
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
-                                <div class="flex items-center justify-between text-xs font-bold font-mono">
-                                    <span class="text-blue-400">2. Interacción (Consideración / MOFU)</span>
-                                    <span class="bg-blue-400/10 text-blue-400 px-2 py-0.5 rounded">Autoridad</span>
-                                </div>
-                                <p class="text-xs text-slate-300"><strong class="text-white">Formatos:</strong> Carrouseles educativos, videos largos, casos de éxito y demostraciones prácticas.</p>
-                                <p class="text-xs text-slate-300"><strong class="text-white">Temas:</strong> El "paso a paso" para resolver un problema de fondo mostrando el know-how de la marca.</p>
-                                <p class="text-xs text-slate-400 italic">Propósito: Demostrar autoridad, generar confianza y retener al usuario más tiempo.</p>
-                            </div>
-
-                            <!-- Etapa 3: Conversión -->
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
-                                <div class="flex items-center justify-between text-xs font-bold font-mono">
-                                    <span class="text-brand-neon">3. Conversión (Acción / BOFU)</span>
-                                    <span class="bg-brand-neon/10 text-brand-neon px-2 py-0.5 rounded">Captación / Venta</span>
-                                </div>
-                                <p class="text-xs text-slate-300"><strong class="text-white">Formatos:</strong> Lead Magnets (PDF descargable, plantilla, cotizador express o demostración directa).</p>
-                                <p class="text-xs text-slate-300"><strong class="text-white">Intercambio de Valor:</strong> Material de alto impacto a cambio de datos (correo o WhatsApp) o agendamiento directo.</p>
-                                <p class="text-xs text-slate-400 italic">Propósito: Transformar al visitante en un prospecto o cliente final.</p>
-                            </div>
-
-                            <!-- Etapa 4: Fidelización -->
-                            <div class="bg-black/50 p-4 rounded-xl border border-brand-border space-y-2">
-                                <div class="flex items-center justify-between text-xs font-bold font-mono">
-                                    <span class="text-purple-400">4. Fidelización (Comunidad)</span>
-                                    <span class="bg-purple-400/10 text-purple-400 px-2 py-0.5 rounded">Retención</span>
-                                </div>
-                                <p class="text-xs text-slate-300"><strong class="text-white">Formatos:</strong> Newsletters con contenido exclusivo, encuestas y atención post-venta.</p>
-                                <p class="text-xs text-slate-300"><strong class="text-white">Espacios:</strong> Canales directos para clientes recurrentes y remarketing especial.</p>
-                                <p class="text-xs text-slate-400 italic">Propósito: Mantener viva la relación y convertir a clientes en embajadores de marca.</p>
-                            </div>
-                        </div>
-
-                        <!-- Elementos Transversales -->
-                        <div class="bg-black/70 p-4 rounded-xl border border-brand-border text-xs space-y-2">
-                            <div class="font-bold text-white uppercase font-mono text-brand-neon">Elementos Transversales del Funnel</div>
-                            <p class="text-slate-300"><strong class="text-white">Llamadas a la Acción (CTAs):</strong> Cada pieza debe tener una instrucción clara (ej. "Comenta 'QUIERO' para recibir la guía", "Haz clic en el enlace del perfil", "Descarga el plantilla").</p>
-                            <p class="text-slate-300"><strong class="text-white">Flujo de Trabajo Recomendado:</strong> Organizar la planificación mensual en herramientas como Notion o Trello con estados (Idea, En Producción, Listo, Publicado).</p>
-                        </div>
-                    </div>
-
-                    <!-- Module 7: Special Footer Notice if NO LANDING PAGE -->
-                    ${noLanding ? `
-                        <div class="mt-8 p-5 bg-amber-500/10 border-2 border-amber-500/40 rounded-xl space-y-2">
-                            <div class="flex items-center gap-2 text-amber-400 font-bold font-mono text-xs uppercase">
-                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-                                <span>NOTA ESTRATÉGICA FINAL — INFRAESTRUCTURA DIGITAL PENDIENTE</span>
-                            </div>
-                            <p class="text-xs text-slate-200 font-sans leading-relaxed">
-                                <strong>La marca actualmente no cuenta con Landing Page o sitio web activo.</strong> <br/>
-                                Este Brief debe utilizarse de manera prioritaria como la <strong>hoja de ruta estratégica para el diseño y desarrollo de su primera Landing Page de alta conversión</strong>, asegurando que capture los datos del Lead Magnet definido en la Etapa de Conversión del Funnel y organice sus canales de redes sociales de forma alineada.
-                            </p>
-                        </div>
-                    ` : `
-                        <div class="mt-8 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-xs text-emerald-300 font-mono">
-                            ✓ Infraestructura web detectada. Este Brief servirá para optimizar las campañas de tráfico dirigido hacia la Landing Page existente.
-                        </div>
-                    `}
-                `;
-
-                // Re-initialize Lucide icons for dynamically added HTML
-                lucide.createIcons();
-
-                // Unhide preview section & scroll smoothly into view
-                previewSection.classList.remove('hidden');
-                previewSection.scrollIntoView({ behavior: 'smooth' });
-            }, 1200);
+        /* ---------- Markdown ---------- */
+        function toMarkdown() {
+            const b = lastBrief, c = lastCtx, p = c.profile, st = STAGES[c.stage];
+            const L = a => arr(a).map(x => `- ${x}`).join('\n'), f = b.funnel || {};
+            const fn = (t, x = {}) => `**${t}**\n- Formatos: ${arr(x.formatos).join(', ')}\n- Temas: ${arr(x.temas).join(', ')}\n- CTA: ${x.cta || ''}`;
+            let i = 0; const H = t => `## ${++i}. ${t}`;
+            return [
+                `# Brief Estratégico — ${p.nombre}`, `**Campaña:** ${st.label}  \n**URL:** ${c.url}  \n**Fecha:** ${new Date().toLocaleDateString('es-CL')}`,
+                H('ADN de Marca & Historia'), `${p.nombre} es ${TYPE_LABEL[p.tipo]} enfocado en ${p.que_hace}.\n\n${b.adn?.descripcion || ''}\n\n**Historia y misión:** ${b.adn?.historia_mision || ''}\n\n**Propuesta de valor:** ${b.adn?.propuesta_valor || ''}`,
+                H('Diagnóstico de Infraestructura Digital'), `${c.noLanding ? '⚠️ La marca NO cuenta con landing page.' : '✓ Cuenta con sitio web / landing.'}\n\n${b.infraestructura?.diagnostico || ''}\n\n${L(b.infraestructura?.recomendaciones)}` +
+                    (c.noLanding && b.landing_plan ? `\n\n**Plan técnico de la primera landing**\n${L(b.landing_plan.secciones)}\n\n**Recomendaciones técnicas**\n${L(b.landing_plan.recomendaciones_tecnicas)}` : ''),
+                H('Análisis FODA'), `**Fortalezas**\n${L(b.foda?.fortalezas)}\n\n**Oportunidades**\n${L(b.foda?.oportunidades)}\n\n**Debilidades**\n${L(b.foda?.debilidades)}\n\n**Amenazas**\n${L(b.foda?.amenazas)}`,
+                H('Competencia & Ventaja Única'), `${L(b.competencia?.competidores)}\n\n**Ventaja única:** ${b.competencia?.ventaja_unica || ''}`,
+                H('Público Objetivo (Buyer Persona)'), `**${b.buyer_persona?.nombre || ''}** — ${b.buyer_persona?.edad || ''}\n\n${b.buyer_persona?.perfil || ''}\n\n**Dolores**\n${L(b.buyer_persona?.dolores)}\n\n**Motivaciones**\n${L(b.buyer_persona?.motivaciones)}`,
+                H('Paleta de Colores & Guía Estética'), `_Paleta ${b.paleta_origen === 'observada' ? 'observada' : 'sugerida'}_\n\n${arr(b.paleta).map(x => `- \`${x.hex}\` ${x.nombre}: ${x.uso}`).join('\n')}\n\n${b.guia_estetica || ''}`,
+                H('Mensaje Clave & Tono de Voz'), `**Mensaje:** ${b.mensaje?.clave || ''}\n\n**Tono:** ${b.mensaje?.tono || ''}\n\n${L(b.mensaje?.ejemplos)}`,
+                H('Objetivos & KPIs'), arr(b.objetivos_kpis).map(o => `- **${o.objetivo}** — KPI: ${o.kpi} — Meta referencial: ${o.meta}`).join('\n'),
+                H('Canales de Difusión & Matriz de Medios'), arr(b.canales).map(x => `- **${x.canal}** — ${x.rol} (${x.frecuencia})`).join('\n'),
+                H('Presupuesto & Distribución (referencial)'), arr(b.presupuesto).map(x => `- **${x.item}: ${x.porcentaje}** — ${x.detalle}`).join('\n'),
+                H('Calendario, Timing & Flujo de Trabajo'), arr(b.calendario?.semanas).map(w => `- **${w.semana} — ${w.foco}:** ${arr(w.entregables).join('; ')}`).join('\n') + `\n\n**Flujo Notion/Trello:** ${b.calendario?.flujo_trabajo || ''}`,
+                H('Estrategia de la Etapa Foco: ' + st.label), `${b.estrategia_etapa?.enfoque || ''}\n\n**Acciones**\n${L(b.estrategia_etapa?.acciones)}\n\n**Ideas de contenido**\n${L(b.estrategia_etapa?.ideas_contenido)}\n\n**CTA:** ${b.estrategia_etapa?.cta || ''}\n\n**Métricas:** ${arr(b.estrategia_etapa?.metricas).join(', ')}`,
+                H('Funnel de Contenidos Inbound'), [fn('1. Atracción (TOFU)', f.atraccion), fn('2. Interacción (MOFU)', f.interaccion), fn('3. Conversión / Decisión (BOFU)', f.conversion), fn('4. Fidelización (Comunidad)', f.fidelizacion)].join('\n\n') + `\n\n**CTAs transversales**\n${L(f.ctas_transversales)}\n\n**Flujo Notion/Trello:** ${f.flujo_notion_trello || ''}`,
+                c.noLanding ? `> **La marca no cuenta con landing page. Este brief debe utilizarse como hoja de ruta para el diseño de su landing y la estructuración táctica de sus redes sociales.**` : '',
+                lastSources.length ? `_Fuentes consultadas: ${lastSources.slice(0, 6).map(s => s.title || s.uri).join(' · ')}_` : ''
+            ].filter(Boolean).join('\n\n');
         }
 
         function copyBriefMarkdown() {
-            const content = document.getElementById('briefOutputContent').innerText;
-            const textarea = document.createElement('textarea');
-            textarea.value = content;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-
-            showToast("¡Brief copiado en formato Markdown al portapapeles!");
+            if (!lastBrief) return;
+            const md = toMarkdown();
+            const done = () => showToast('¡Brief copiado en formato Markdown!');
+            if (navigator.clipboard?.writeText) navigator.clipboard.writeText(md).then(done).catch(() => fallbackCopy(md, done));
+            else fallbackCopy(md, done);
+        }
+        function fallbackCopy(text, cb) {
+            const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); cb();
         }
 
+        /* ---------- PDF ---------- */
         function downloadBriefPDF() {
-            const element = document.getElementById('briefOutputContent');
-            const pdfBtn = document.getElementById('pdfBtn');
-
-            if (!element) return;
-
-            // Change button state
+            const element = $('briefOutputContent'), pdfBtn = $('pdfBtn');
+            if (!lastBrief) return;
             pdfBtn.disabled = true;
-            pdfBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Generando PDF...</span>`;
-            lucide.createIcons();
-
-            // Setup options for html2pdf
-            const opt = {
-                margin:       [0.3, 0.3, 0.3, 0.3],
-                filename:     `Brief_Estrategico_${new Date().toISOString().slice(0,10)}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0d0d0d' },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-
-            // Generate PDF
-            html2pdf().set(opt).from(element).save().then(() => {
-                pdfBtn.disabled = false;
-                pdfBtn.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i><span>Descargar PDF</span>`;
-                lucide.createIcons();
-                showToast("¡PDF generado y descargado exitosamente!");
-            }).catch(err => {
-                console.error("PDF generation error:", err);
-                pdfBtn.disabled = false;
-                pdfBtn.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i><span>Descargar PDF</span>`;
-                lucide.createIcons();
-                showToast("PDF generado. Revisa las descargas de tu navegador.");
-            });
+            pdfBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Generando PDF...</span>`; lucide.createIcons();
+            const reset = () => { element.style.backdropFilter = ''; pdfBtn.disabled = false; pdfBtn.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i><span>Descargar PDF</span>`; lucide.createIcons(); };
+            element.style.backdropFilter = 'none';
+            const name = (lastCtx.profile.nombre || 'marca').replace(/[^\w-]+/g, '_');
+            html2pdf().set({
+                margin: [0.3, 0.3, 0.3, 0.3], filename: `Brief_${name}_${new Date().toISOString().slice(0, 10)}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, backgroundColor: '#0d0d0d' },
+                pagebreak: { mode: ['css', 'legacy'], avoid: ['.avoid-break'] }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            }).from(element).save().then(() => { reset(); showToast('¡PDF descargado!'); }).catch(err => { console.error(err); reset(); showToast('No se pudo generar el PDF.', true); });
         }
 
-        function showToast(message) {
+        function showToast(message, isError) {
             const toast = document.createElement('div');
-            toast.className = 'fixed bottom-6 right-6 bg-brand-neon text-black font-bold px-5 py-3 rounded-xl shadow-neon z-50 transition-all transform translate-y-0 text-xs flex items-center gap-2';
-            toast.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>${message}</span>`;
-            document.body.appendChild(toast);
-            lucide.createIcons();
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            toast.className = `fixed bottom-6 right-6 max-w-sm ${isError ? 'bg-rose-500 text-white' : 'bg-brand-neon text-black'} font-bold px-5 py-3 rounded-xl shadow-neon z-[60] transition-all text-xs flex items-center gap-2`;
+            toast.innerHTML = `<i data-lucide="${isError ? 'alert-circle' : 'check'}" class="w-4 h-4 shrink-0"></i><span>${esc(message)}</span>`;
+            document.body.appendChild(toast); lucide.createIcons();
+            setTimeout(() => { toast.classList.add('opacity-0'); setTimeout(() => toast.remove(), 300); }, isError ? 6000 : 3000);
         }
 
         function toggleFaq(button) {
-            const content = button.nextElementSibling;
-            const icon = button.querySelector('[data-lucide="chevron-down"]');
-            
+            const content = button.nextElementSibling, icon = button.querySelector('[data-lucide="chevron-down"], svg');
             const isHidden = content.classList.contains('hidden');
-            
             document.querySelectorAll('#faqAccordion .px-6.pb-5').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('#faqAccordion [data-lucide="chevron-down"]').forEach(i => i.style.transform = 'rotate(0deg)');
-
-            if (isHidden) {
-                content.classList.remove('hidden');
-                if (icon) icon.style.transform = 'rotate(180deg)';
-            }
+            document.querySelectorAll('#faqAccordion button svg').forEach(i => i.style.transform = 'rotate(0deg)');
+            if (isHidden) { content.classList.remove('hidden'); if (icon) icon.style.transform = 'rotate(180deg)'; }
         }
     </script>
 </body>
